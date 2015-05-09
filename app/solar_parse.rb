@@ -2,6 +2,7 @@
 require 'capybara'
 require 'capybara/dsl'
 require 'selenium-webdriver'
+require 'mongo'
 
 require 'nokogiri'
 
@@ -47,14 +48,63 @@ module Crawler
 				@solars.push(temp.slice!(0,17))
 			end
 		end
+
+# sample 
+#  1                  2     3  4                    5    6   7              8       9   10         11   12           13
+# "現在の合計発電電力,317.8,kW,本日の合計発電電力量,9011,kWh,積算発電電力量,4498866,kWh,サイト状況,正常,表示更新日時,2015/05/09,15:47"
+#  1                   2                3   4   5              6     7  8        9    10    11       12     13         14
+# "宝塚市境野（500kW）,本日の発電電力量,661,kWh,現在の発電電力,118.3,kW,日射強度,0.27,kw/㎡,外気温度,20.0,℃,サイト状況,正常"
+		def save
+			connection = Mongo::Connection.new('localhost')
+			db = connection.db('solarsdb')
+			collection_summary = db.collection('summary')
+			collection_summary.insert({
+						'now_title' => summary[0],
+						'now_kw'    => summary[1],
+				 		'now_unit'  => summary[2],
+				 		'today_title' => summary[3],
+				 		'today_kwh'   => summary[4],
+				 		'today_unit'  => summary[5],
+				 		'total_title' => summary[6],
+				 		'total_kwh'   => summary[7],
+				 		'total_unit'  => summary[8],
+				 		'site_title'  => summary[9],
+				 		'site_status' => summary[10],
+				 		'update_title' => summary[11],
+				 		'update_date'  => summary[12]
+			})
+			collection_solars = db.collection('solars')
+			solars.each do |s|
+				collection_solars.insert({
+					"name"	=> s[0],
+					"today_title"	=> s[1],
+					"today_kwh"		=> s[2],
+					"today_unit"	=> s[3],
+					"now_title"		=> s[4],
+					"now_kw"			=> s[5],
+					"now_unit"		=> s[6],
+					"sun_title"		=> s[7],
+					"sun_value"		=> s[8],
+					"sun_unit"		=> s[9],
+					"temp_title"	=> s[10],
+					"temp_value"	=> s[11],
+					"temp_unit"		=> s[12],
+					"site_title"	=> s[13],
+					"site_status" => s[14]
+				})
+			end
+		end
 	end
 end
 
-crawler = Crawler::Megasolar.new
-crawler.get_data
-crawler.parse
-# show 
-p crawler.summary[0,crawler.summary.size - 1].join(",")
-crawler.solars.each do |s|
-	p s[0, s.size - 2].join(",")
+if $0 === __FILE__
+	crawler = Crawler::Megasolar.new
+	crawler.get_data
+	crawler.parse
+	crawler.save
+	# show 
+	p crawler.summary[0,crawler.summary.size - 1].join(",")
+	crawler.solars.each do |s|
+		p s[0, s.size - 2].join(",")
+	end
 end
