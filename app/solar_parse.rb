@@ -1,14 +1,27 @@
 # -*- coding: utf-8 -*-
 require 'capybara'
 require 'capybara/dsl'
-require 'selenium-webdriver'
-require 'mongo'
+require 'capybara/poltergeist'
 
+require 'mongo'
 require 'nokogiri'
 
-Capybara.current_driver = :selenium
-Capybara.app_host = 'https://services32.energymntr.com/megasolar/COK0132285/widemonitor/index.php'
-Capybara.default_wait_time = 5 
+Capybara.configure do |config|
+	config.run_server = false
+	config.current_driver = :poltergeist
+	config.javascript_driver = :poltergeist
+
+	#todo `https` is failed then changed 'http'
+	#config.app_host = 'https://services32.energymntr.com/megasolar/COK0132285/login/'
+	config.app_host = 'http://services32.energymntr.com/megasolar/COK0132285/login/'
+
+	config.default_wait_time = 5 
+end
+
+Capybara.register_driver :poltergeist do |app|
+	Capybara::Poltergeist::Driver.new(
+		app, {:timeout => 120, js_errors: false})
+end
 
 module Crawler
 	class Megasolar
@@ -21,11 +34,10 @@ module Crawler
 		end
 
 		def login
+			page.driver.headers = {"User-Agent" => "Mac Safari"}
 			visit('')
-			fill_in "idtext",
-				:with => 'COK0132285'
-			fill_in "pwtext",
-				:with => 'bfifzLxMg3qWrmt'
+			fill_in "idtext", :with => 'COK0132285'
+			fill_in "pwtext", :with => 'bfifzLxMg3qWrmt'
 			click_link "ログイン"
 		end
 
