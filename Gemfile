@@ -5,6 +5,6 @@ source "https://rubygems.org"
 gem "poltergeist"
 gem "selenium-webdriver"
 gem "nokogiri"
-gem "mongo"
+gem "mongo","~> 2.0"
 gem "bson_ext"
 

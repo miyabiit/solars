@@ -67,10 +67,9 @@ module Crawler
 #  1                   2                3   4   5              6     7  8        9    10    11       12     13         14
 # "宝塚市境野（500kW）,本日の発電電力量,661,kWh,現在の発電電力,118.3,kW,日射強度,0.27,kw/㎡,外気温度,20.0,℃,サイト状況,正常"
 		def save
-			connection = Mongo::Connection.new('localhost')
-			db = connection.db('solarsdb')
-			collection_summary = db.collection('summary')
-			collection_summary.insert({
+			db = Mongo::Client.new(['127.0.0.1:27017'], :database => 'solarsdb')
+			db[:summary].find({:status => 'last'}).update_many({'$set' => {:status => 'done'}})
+			db[:summary].insert_one({
 						'now_title' => summary[0],
 						'now_kw'    => summary[1],
 				 		'now_unit'  => summary[2],
@@ -83,11 +82,12 @@ module Crawler
 				 		'site_title'  => summary[9],
 				 		'site_status' => summary[10],
 				 		'update_title' => summary[11],
-				 		'update_date'  => summary[12]
+				 		'update_date'  => summary[12],
+						"status"	=> "last"
 			})
-			collection_solars = db.collection('solars')
+			db[:solars].find(:status => 'last').update_many("$set" => {:status => 'done'})
 			solars.each do |s|
-				collection_solars.insert({
+				db[:solars].insert_one({
 					"name"	=> s[0],
 					"today_title"	=> s[1],
 					"today_kwh"		=> s[2],
@@ -102,7 +102,8 @@ module Crawler
 					"temp_value"	=> s[11],
 					"temp_unit"		=> s[12],
 					"site_title"	=> s[13],
-					"site_status" => s[14]
+					"site_status" => s[14],
+					"status"	=> "last"
 				})
 			end
 		end
