@@ -5,9 +5,6 @@ angular.module('solarwebApp')
     $scope.menu = [{
       'title': 'Home',
       'link': '/'
-		},{
-      'title': 'Solar',
-      'link': '/solar'
     }];
 
     $scope.isCollapsed = true;

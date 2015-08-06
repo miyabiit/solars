@@ -10,7 +10,11 @@ var SolarSchema = new Schema({
 	today_unit: String,
 	now_title: String,
 	now_kw: String,
-	now_unit: String
+	now_unit: String,
+	createdAt: {
+		type: Date,
+		default: Date.now
+	}
 });
 
 module.exports = mongoose.model('Solar', SolarSchema);

@@ -9,5 +9,6 @@ module.exports = {
     uri: 'mongodb://localhost/solarsdb'
   },
 
-  seedDB: true
+  //seedDB: true
+  seedDB: false
 };
