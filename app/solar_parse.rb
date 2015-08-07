@@ -68,7 +68,16 @@ module Crawler
 # "宝塚市境野（500kW）,本日の発電電力量,661,kWh,現在の発電電力,118.3,kW,日射強度,0.27,kw/㎡,外気温度,20.0,℃,サイト状況,正常"
 		def save
 			db = Mongo::Client.new(['127.0.0.1:27017'], :database => 'solarsdb')
-			db[:summary].find({:status => 'last'}).update_many({'$set' => {:status => 'done'}})
+			last_summary = db[:summary].find({:status => 'last'})
+			ymd = ""
+			last_summary.limit(1).each do |s|
+				ymd = s["date_time"]
+			end
+			if ymd && ymd[0..7] != Date.today.strftime("%Y%m%d")
+				db[:summary].find({:status => 'last'}).update_many({'$set' => {:status => 'day'}})
+			else
+				db[:summary].find({:status => 'last'}).update_many({'$set' => {:status => 'done'}})
+			end
 			db[:summary].insert_one({
 						'now_title' => summary[0],
 						'now_kw'    => summary[1],
@@ -83,10 +92,20 @@ module Crawler
 				 		'site_status' => summary[10],
 				 		'update_title' => summary[11],
 				 		'update_date'  => summary[12],
-						"status"	=> "last"
+						"status"	=> "last",
+						"date_time" => DateTime.now.strftime("%Y%m%d%H%M")
 			})
-			db[:solars].find(:status => 'last').update_many("$set" => {:status => 'done'})
-			solars.each do |s|
+			last_solars = db[:solars].find(:status => 'last')
+			ymd = ""
+			last_solars.limit(1).each do |s|
+				ymd = s["date_time"]
+			end
+			if  ymd && ymd[0..7] != Date.today.strftime("%Y%m%d") 
+				last_solars.update_many("$set" => {:status => 'day'})
+			else
+				last_solars.update_many("$set" => {:status => 'done'})
+			end
+			@solars.each do |s|
 				db[:solars].insert_one({
 					"name"	=> s[0],
 					"today_title"	=> s[1],
@@ -103,7 +122,8 @@ module Crawler
 					"temp_unit"		=> s[12],
 					"site_title"	=> s[13],
 					"site_status" => s[14],
-					"status"	=> "last"
+					"status"	=> "last",
+					"date_time" => DateTime.now.strftime('%Y%m%d%H%M')
 				})
 			end
 		end
