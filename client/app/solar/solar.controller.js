@@ -5,6 +5,7 @@ angular.module('solarwebApp')
 		$scope.solars = [];
 		$scope.summary = [];
 		$scope.total_today_amount = 0;
+		$scope.datetime_str = '';
 
 		$http.get('/api/solars').success(function(solars){
 			var total = 0;
@@ -16,13 +17,23 @@ angular.module('solarwebApp')
 				}else{
 					sol.amount = sol.today_kwh * 36;
 				}
-				total += sol.amount;
-				sol.amount_str = String(sol.amount).replace(/(\d)(?=(\d\d\d)+(?!\d))/g,'$1,');
+				if(isNaN(sol.amount)){
+					total += 0;
+					sol.amount_str = '--';
+				}else{
+					total += parseInt(sol.amount,10);
+					sol.amount_str = String(parseInt(sol.amount,10)).replace(/(\d)(?=(\d\d\d)+(?!\d))/g,'$1,');
+				}
 			});
 			$scope.total_today_amount = String(total).replace(/(\d)(?=(\d\d\d)+(?!\d))/g,'$1,');
 			$scope.solars = solars;
 		});
 		$http.get('/api/summary').success(function(summary){
 			$scope.summary = summary;
+			var t = '';
+			summary.forEach(function(sum){
+				t = sum.date_time;
+			});
+			$scope.datetime_str = t.substr(0,4) + '/' + t.substr(4,2) + '/' + t.substr(6,2) + ' ' + t.substr(8,2) + ':' + t.substr(10,2);
 		});
 	});

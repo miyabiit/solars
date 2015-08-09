@@ -11,6 +11,7 @@ var SolarSchema = new Schema({
 	now_title: String,
 	now_kw: String,
 	now_unit: String,
+	date_time: String,
 	createdAt: {
 		type: Date,
 		default: Date.now
