@@ -1,0 +1,41 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<header class="hero-unit" id="banner">
+	<h2>SHALLONTEC SOLORS (日別集計)</h2>
+</header>
+<div class="container">
+
+<div class="row">
+	<div class="span8">
+<table class="table table-striped">
+	<tr>
+		<th>日付</th>
+		<th align="right">本日累積</th>
+		<th align="right">本日売電</th>
+		<th align="right">障害(最終ステータス)</th>
+	</tr>
+	<tr class="info" ng:repeat="sum in summary">
+		<td>
+			{{sum.date_time.substr(0,4) + '/' + sum.date_time.substr(4,2) + '/' + sum.date_time.substr(6,2)}}</br>
+		</td>
+		<td align="right">
+			{{sum.today_kwh}}&nbsp;{{sum.today_unit}}
+		</td>
+		<td align="right">
+			{{total_today_amount}}&nbsp;円
+		</td>
+		<td colspan="2" align="right">
+			&nbsp;
+		</td>
+		<td align="right">
+			{{sum.site_status}}
+		</td>
+	</tr>
+</table>
+	</div>
+	<div class="span4">
+	&nbsp;
+	</div>
+</div>
+</div>
+</div>
