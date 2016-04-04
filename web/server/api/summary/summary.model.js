@@ -16,7 +16,8 @@ var SummarySchema = new Schema({
 	site_title: String,
 	site_status: String,
 	update_title: String,
-	update_date: String
+	update_date: String,
+	date_time: String
 });
 
 module.exports = mongoose.model('Summary', SummarySchema, 'summary');

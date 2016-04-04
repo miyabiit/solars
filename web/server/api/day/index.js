@@ -1,11 +1,12 @@
 'use strict';
 
 var express = require('express');
-var controller = require('./solar.controller');
+var controller = require('./day.controller');
 
 var router = express.Router();
 
 router.get('/', controller.index);
+router.get('/month/:ym', controller.month);
 router.get('/:id', controller.show);
 router.post('/', controller.create);
 router.put('/:id', controller.update);

@@ -11,6 +11,14 @@ exports.index = function(req, res) {
   });
 };
 
+// Get list of day summary
+exports.days = function(req, res) {
+	Summary.find({'status':'day'}, function(err, summary){
+		if(err){ return handleError(res, err); }
+		return res.json(200, summary);
+	});
+};
+
 // Get a single summary
 exports.show = function(req, res) {
   Summary.findById(req.params.id, function (err, summary) {

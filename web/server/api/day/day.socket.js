@@ -4,21 +4,21 @@
 
 'use strict';
 
-var Solar = require('./solar.model');
+var Day = require('./day.model');
 
 exports.register = function(socket) {
-  Solar.schema.post('save', function (doc) {
+  Day.schema.post('save', function (doc) {
     onSave(socket, doc);
   });
-  Solar.schema.post('remove', function (doc) {
+  Day.schema.post('remove', function (doc) {
     onRemove(socket, doc);
   });
 }
 
 function onSave(socket, doc, cb) {
-  socket.emit('solar:save', doc);
+  socket.emit('day:save', doc);
 }
 
 function onRemove(socket, doc, cb) {
-  socket.emit('solar:remove', doc);
+  socket.emit('day:remove', doc);
 }
