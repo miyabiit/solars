@@ -1,0 +1,81 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<header class="hero-unit" id="banner">
+	<h2>SHALLONTEC SOLARS</h2>
+</header>
+
+<div class="container">
+<div class="row">
+	<div class="col-md-9">
+<table class="table table-striped">
+	<tr>
+		<th>発電所</th>
+		<th>本日累積</th>
+		<th>本日売電</th>
+		<th>現在(kw)</th>
+		<th>日射強度</th>
+		<th>温度</th>
+		<th>障害</th>
+	</tr>
+	<tr ng:repeat="solar in solars">
+		<td>
+			{{solar.name}}
+		</td>
+		<td align="right">
+			{{solar.today_kwh}}&nbsp;{{solar.today_unit}}
+		</td>
+		<td align="right">
+			{{solar.amount_str}}&nbsp;円
+		</td>
+		<td align="right">
+			{{solar.now_kw}}
+		</td>
+		<td align="right">
+			{{solar.sun_value}}&nbsp;{{solar.sun_unit}}
+		</td>
+		<td align="right">
+			{{solar.temp_value}}&nbsp;{{solar.temp_unit}}
+		</td>
+		<td align="right">
+			{{solar.site_status}}
+		</td>
+	</tr>
+	<tr class="success" ng:repeat="sum in summary">
+		<td>
+			{{sum.today_title}}
+		</td>
+		<td align="right">
+			{{sum.today_kwh}}&nbsp;{{sum.today_unit}}
+		</td>
+		<td align="right">
+			{{total_today_amount}}&nbsp;円
+		</td>
+		<td colspan="3" align="right">
+			{{sum.update_title}}&nbsp;{{sum.update_date}}
+			&nbsp;
+		</td>
+		<td align="right">
+			{{sum.site_status}}
+		</td>
+	</tr>
+	<tr class="success" ng:repeat="sum in summary">
+		<td>
+			{{sum.total_title}}
+		</td>
+		<td align="right">
+			{{sum.total_kwh}}&nbsp;{{sum.total_unit}}
+		</td>
+		<td>
+			&nbsp;
+		</td>
+		<td colspan="3" align="right">
+			&nbsp;
+		</td>
+		<td align="right">
+			&nbsp;
+		</td>
+	</tr>
+</table>
+	</div>
+</div>
+</div>
