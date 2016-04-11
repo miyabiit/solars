@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('solarwebApp')
-  .controller('SolarCtrl', function ($scope, $http) {
+  .controller('SolarCtrl', function ($scope, $http, $state, $timeout) {
 		$scope.solars = [];
 		$scope.summary = [];
 		$scope.total_today_amount = 0;
@@ -36,4 +36,10 @@ angular.module('solarwebApp')
 			});
 			$scope.datetime_str = t.substr(0,4) + '/' + t.substr(4,2) + '/' + t.substr(6,2) + ' ' + t.substr(8,2) + ':' + t.substr(10,2);
 		});
+    // 60秒間隔で画面リロード
+    $scope.startTimer = function() {
+      $timeout(function() {
+        $state.reload();
+      }, 60000);
+    }
 	});
