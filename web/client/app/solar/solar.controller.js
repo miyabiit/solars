@@ -36,10 +36,10 @@ angular.module('solarwebApp')
 			});
 			$scope.datetime_str = t.substr(0,4) + '/' + t.substr(4,2) + '/' + t.substr(6,2) + ' ' + t.substr(8,2) + ':' + t.substr(10,2);
 		});
-    // 60秒間隔で画面リロード
+    // 5分間隔で画面リロード
     $scope.startTimer = function() {
       $timeout(function() {
         $state.reload();
-      }, 60000);
+      }, 5 * 60 * 1000);
     }
 	});
