@@ -30,5 +30,5 @@ end
 
 every :day, at: "0:25 am"  do
   set :output, -> { "> /var/log/solars-dump.log 2>&1" } # TODO: log rotation
-  command "/bin/sh /root/bin/mongodbbackup.sh"
+  command "cd /home/ec2-user/node_apps/solars/current/crawler && /bin/sh ./script/mongodbbackup.sh"
 end
