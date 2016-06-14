@@ -34,7 +34,7 @@ set :ssh_options, {
 }
 
 set :nvm_type, :user # or :system, depends on your nvm setup
-set :nvm_node, 'v0.12.0'
+set :nvm_node, 'v4.4.5'
 set :nvm_map_bins, %w{node npm bower forever}
 
 set :npm_target_path, -> { release_path.join('web') }
