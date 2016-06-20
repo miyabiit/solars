@@ -34,7 +34,7 @@ module Crawler
 		end
 
 		def login
-			page.driver.headers = {"User-Agent" => "Mac Safari"}
+			page.driver.headers = {"User-Agent" => "Mac Safari", "Accept-Language" => "ja"}
 			visit('')
 			fill_in "idtext", :with => 'COK0132285'
 			fill_in "pwtext", :with => 'bfifzLxMg3qWrmt'
