@@ -25,6 +25,7 @@ set :bundle_env_variables, { nokogiri_use_system_libraries: 1 }
 set :user, "ec2-user"
 set :group, "ec2-user"
 
+set :web_path, "#{current_path}/web"
 set :app_server_path, "#{current_path}/web/server"
 set :crawler_path, "#{current_path}/crawler"
 
@@ -95,8 +96,8 @@ namespace :deploy do
   desc 'Start application'
   task :start do
     on roles(:app) do
-      within current_path do
-        execute :forever, 'start',  "#{fetch(:app_server_path)}/app.js"
+      within fetch(:web_path) do
+        execute :forever, 'start',  "server/app.js"
       end
     end
   end
@@ -104,7 +105,7 @@ namespace :deploy do
   desc 'Stop application'
   task :stop do
     on roles(:app) do
-      within current_path do
+      within fetch(:web_path) do
         execute :forever, 'stopall'
       end
     end
@@ -113,9 +114,9 @@ namespace :deploy do
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      within current_path do
+      within fetch(:web_path) do
         execute :forever, 'stopall'
-        execute :forever, 'start', "#{fetch(:app_server_path)}/app.js"
+        execute :forever, 'start', "server/app.js"
       end
     end
   end
