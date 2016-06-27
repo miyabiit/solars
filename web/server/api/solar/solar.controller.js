@@ -2,12 +2,21 @@
 
 var _ = require('lodash');
 var Solar = require('./solar.model');
+var moment = require('moment');
 
 // Get list of solars
 exports.index = function(req, res) {
-  Solar.find({'status':'last'} ,function (err, solars) {
+  Solar.findOne({'date': moment().format('YYYYMMDD')})
+         .sort('-date_time') 
+         .exec(function (err, solar) {
     if(err) { return handleError(res, err); }
-    return res.json(200, solars);
+    if(!solar) { return res.send(404); }
+    Solar.find({date_time: solar.date_time})
+            .sort("name")
+            .exec(function(err, solars) {
+      if(err) { return handleError(res, err); }
+      return res.json(200, solars);
+    });
   });
 };
 

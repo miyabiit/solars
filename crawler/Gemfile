@@ -9,5 +9,7 @@ gem "selenium-webdriver"
 gem "nokogiri"
 gem "mongo","~> 2.0"
 gem "bson_ext"
+gem 'mongoid', '~> 5.1.0'
 gem 'activesupport'
 gem 'whenever'
+gem 'rake'
