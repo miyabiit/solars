@@ -1,10 +1,13 @@
 # A sample Gemfile
 source "https://rubygems.org"
 
+ruby '2.3.1'
+
 # gem "rails"
 gem "poltergeist"
 gem "selenium-webdriver"
 gem "nokogiri"
 gem "mongo","~> 2.0"
 gem "bson_ext"
-
+gem 'activesupport'
+gem 'whenever'
