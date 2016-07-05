@@ -9,8 +9,7 @@ require 'nokogiri'
 require 'active_support'
 require 'active_support/core_ext'
 
-AppRoute = Pathname.new(File.expand_path(File.dirname(__FILE__) + "/.."))
-AppEnv = ENV['APP_ENV'].presence || 'development'
+AppRoute ||= Pathname.new(File.expand_path(File.dirname(__FILE__) + "/.."))
 
 def load_app_libraries(load_paths)
   load_paths.each do |load_path|
@@ -37,8 +36,6 @@ Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(
     app, {:timeout => 120, js_errors: false})
 end
-
-Mongoid.load!(AppRoute.join('config', 'mongoid.yml'), AppEnv)
 
 module Crawler
   class Megasolar
@@ -131,6 +128,7 @@ module Crawler
         site_status:    converted_summary[10],
         update_title:   converted_summary[11],
         update_date:    converted_summary[12],
+        update_time:    converted_summary[13],
         sales:          total_sales,
         date_time:      current_time
       })
@@ -154,6 +152,9 @@ module Crawler
 end
 
 if $0 === __FILE__
+  AppEnv = ENV['APP_ENV'].presence || 'development'
+  Mongoid.load!(AppRoute.join('config', 'mongoid.yml'), AppEnv)
+
   crawler = Crawler::Megasolar.new
   crawler.get_data
   crawler.parse

@@ -8,7 +8,8 @@ class Summary
   field   :today_kwh,      type: Integer  # 本日の発電電力量
   field   :total_kwh,      type: Float    # 積算発電電力量
   field   :site_status,    type: String   # サイト状況(正常/異常)
-  field   :update_date,    type: String   # 表示更新日時
+  field   :update_date,    type: String   # 表示更新日時(日)
+  field   :update_time,    type: String   # 表示更新日時(時)
   field   :sales,          type: Integer  # 本日の売電額
   field   :date,          type: String    # 作成日(yyyymmdd)
   field   :date_time,      type: Time     # 作成日時
