@@ -1,0 +1,726 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+ "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="ja">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="refresh" content="60">
+<title>一括監視</title>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9">
+<!--[if lt IE 9 ]>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<![endif]-->
+<link href="../css/base.css" rel="stylesheet" type="text/css" >
+<link href="../css/reset.css" rel="stylesheet" type="text/css" >
+<link href="css/monitor.css" rel="stylesheet" type="text/css" >
+<link href="css/systemWidget.css" rel="stylesheet" type="text/css" >
+<link href="css/stateWidget.css" rel="stylesheet" type="text/css" >
+<link href="css/timerWidget.css" rel="stylesheet" type="text/css" >
+<link href="css/areaWidget.css" rel="stylesheet" type="text/css" >
+<link href="css/areaWidget2.css" rel="stylesheet" type="text/css" >
+ 
+<script type="text/javascript" src="../jquery/jquery-ui-1.10.4/js/jquery-1.10.2.js"></script>
+<link href="./../jquery/laplace/l10n/locale/ja/LC_MESSAGES/messages.po" rel="gettext" type="application/x-po" >
+<script type="text/javascript" src="./../jquery/laplace/Gettext.js"></script>
+<script type="text/javascript" src="./../jquery/laplace/lapgettext.js"></script>
+<script type="text/javascript" src="../jquery/laplace/alertinfo.js"></script>
+<script type="text/javascript" src="../jquery/laplace/modaldialog.js"></script>
+<link href="../css/alertWidget.css" rel="stylesheet" type="text/css" >
+</head>
+
+<body>
+<div id="wrapper">
+
+<!--header-->
+<div class="headerMenu">
+<div id="archLogoBtn" >
+<div id="productId" hidden>COK0132285</div>
+</div>
+<div class="headerMenuItem">
+
+<div class="headerBtn">
+</div>
+
+<div class="headerShortBtn">
+<a href="../login/logout.php"><span id="headerBtnLabel">ログアウト</span></a>
+</div>
+</div></div>
+
+<!--maintitle-->
+<div class="mainTitle"></div>
+
+<!--contents-->
+<div id="mainContentArea">
+<div id="main">
+<div id="widgetArea">
+
+<!--systemWidget-->
+    <div class="systemWidget">
+    <div class="widgetTitle">株式会社シャロンテック</div>
+        <div class="totalWindowItem">
+            <div class="leftArea">
+                                <div class="itemBody">
+                    <p class="totalTitle">本日の合計発電電力量</p>
+                    <p class="totalValue">41460</p>
+                    <p class="totalUnit">kWh</p>
+                </div>
+                                <div class="itemBody">
+                    <p class="totalTitle">現在の合計発電電力</p>
+                    <p class="totalValue"> 1426.5</p>
+                    <p class="totalUnit">kW</p>
+                </div>
+                                <div class="itemBody">
+                    <p class="totalTitle">積算発電電力量</p>
+                    <p class="totalValue">19841768</p>
+                    <p class="totalUnit">kWh</p>
+                </div>
+             </div><!--leftAreaEND-->
+        </div><!--totalWindowItemEND-->
+
+<!--stateWidget-->
+    <div class="stateWidget">
+        <div class="itemBody">
+            <p class="title">サイト状況</p>
+            <div class="totalState normal">
+                <div class="totalImg"></div>
+                <div class="totalLabel">正常</div>
+            </div>
+         </div><!--stateItemEND-->
+     </div><!--stateWidgetEND-->
+     </div><!--systemWidgetEND-->
+
+<!--timerWidget-->
+        <div class="timerWidget">
+        <div class="itemBody">
+            <p class="title">表示更新日時</p>
+            <p class="date">2016/07/05</p>
+            <p class="time">17:33</p>
+        </div>
+        </div><!--timerWidgetEND-->
+</div><!--widgetAreaEND-->
+
+<!--areaWidget-->
+<div id="areaWidget">
+    <div class="widgetBody">
+        <!--grayBg-->
+        <div class="grayBgTop"></div>
+        <div class="grayBgMiddle">
+            <div class="widgetTitleArea">
+                <div class="widgetTitle">設置場所一覧</div>
+            </div>
+            <!--whiteBg-->
+            <div class="whiteBg">
+                <div class="whiteBgTop"></div>
+                <div class="whiteBgMiddle">
+                <!--table-->
+<div class="areaWindowArea">
+    <div class="windowItem">
+        <a href="https://services32.energymntr.com/megasolar/VYT0132285/monitor/index.php?gid=1">
+            <div class="windowWidgetBody">
+                <div class="titileBody">
+                    <div class="title">宝塚市境野（500kW）</div>
+                </div>
+                
+                     <div class="powerBody">
+                    <div class="title">本日の発電電力量</div>
+                    <div class="value">1912</div>
+                    <div class="unit">kWh</div>
+                </div>
+                    
+                    <div class="powerBody">
+                    <div class="title">現在の発電電力</div>
+                    <div class="value">62.1</div>
+                    <div class="unit">kW</div>
+                </div>
+                    
+                    <div class="irradianceBody">
+                    <div class="title">日射強度</div>
+                    <div class="value">0.14</div>
+                    <div class="unit">kw/㎡</div>
+                </div>
+                    
+                    <div class="tempBody">
+                    <div class="title">外気温度</div>
+                    <div class="value">30.8</div>
+                    <div class="unit">&#8451;</div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">サイト状況</div>
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">更新停止</div>
+
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                </div>
+        </a>
+
+    </div>
+    <div class="windowItem">
+        <a href="https://services3.energymntr.com/megasolar/shallontec/monitor/index.php?gid=1">
+            <div class="windowWidgetBody">
+                <div class="titileBody">
+                    <div class="title">岩槻区長宮物流センタ（929kW）</div>
+                </div>
+                
+                     <div class="powerBody">
+                    <div class="title">本日の発電電力量</div>
+                    <div class="value">975</div>
+                    <div class="unit">kWh</div>
+                </div>
+                    
+                    <div class="powerBody">
+                    <div class="title">現在の発電電力</div>
+                    <div class="value">44.9</div>
+                    <div class="unit">kW</div>
+                </div>
+                    
+                    <div class="irradianceBody">
+                    <div class="title">日射強度</div>
+                    <div class="value">0.05</div>
+                    <div class="unit">kw/㎡</div>
+                </div>
+                    
+                    <div class="tempBody">
+                    <div class="title">外気温度</div>
+                    <div class="value">19.8</div>
+                    <div class="unit">&#8451;</div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">サイト状況</div>
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">更新停止</div>
+
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                </div>
+        </a>
+
+    </div>
+    <div class="windowItem">
+        <a href="https://services87.energymntr.com/megasolar/UZT013A497/monitor/index.php?gid=1">
+            <div class="windowWidgetBody">
+                <div class="titileBody">
+                    <div class="title">長宮特定業務物流センタ（940kW）</div>
+                </div>
+                
+                     <div class="powerBody">
+                    <div class="title">本日の発電電力量</div>
+                    <div class="value">923</div>
+                    <div class="unit">kWh</div>
+                </div>
+                    
+                    <div class="powerBody">
+                    <div class="title">現在の発電電力</div>
+                    <div class="value">40.5</div>
+                    <div class="unit">kW</div>
+                </div>
+                    
+                    <div class="irradianceBody">
+                    <div class="title">日射強度</div>
+                    <div class="value">0.05</div>
+                    <div class="unit">kw/㎡</div>
+                </div>
+                    
+                    <div class="tempBody">
+                    <div class="title">外気温度</div>
+                    <div class="value">21.1</div>
+                    <div class="unit">&#8451;</div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">サイト状況</div>
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">更新停止</div>
+
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                </div>
+        </a>
+
+    </div>
+    <div class="windowItem">
+        <a href="https://services128.energymntr.com/megasolar/BDB0147065/monitor/index.php?gid=1">
+            <div class="windowWidgetBody">
+                <div class="titileBody">
+                    <div class="title">成田市吉岡（924kW）</div>
+                </div>
+                
+                     <div class="powerBody">
+                    <div class="title">本日の発電電力量</div>
+                    <div class="value">1088</div>
+                    <div class="unit">kWh</div>
+                </div>
+                    
+                    <div class="powerBody">
+                    <div class="title">現在の発電電力</div>
+                    <div class="value">21.7</div>
+                    <div class="unit">kW</div>
+                </div>
+                    
+                    <div class="irradianceBody">
+                    <div class="title">日射強度</div>
+                    <div class="value">0.04</div>
+                    <div class="unit">kw/㎡</div>
+                </div>
+                    
+                    <div class="tempBody">
+                    <div class="title">外気温度</div>
+                    <div class="value">20.4</div>
+                    <div class="unit">&#8451;</div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">サイト状況</div>
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">更新停止</div>
+
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                </div>
+        </a>
+
+    </div>
+    <div class="windowItem">
+        <a href="https://services121.energymntr.com/megasolar/RTF0147066/monitor/index.php?gid=1">
+            <div class="windowWidgetBody">
+                <div class="titileBody">
+                    <div class="title">栃木県那須町A地区（1680kW）</div>
+                </div>
+                
+                     <div class="powerBody">
+                    <div class="title">本日の発電電力量</div>
+                    <div class="value">2158</div>
+                    <div class="unit">kWh</div>
+                </div>
+                    
+                    <div class="powerBody">
+                    <div class="title">現在の発電電力</div>
+                    <div class="value">14.2</div>
+                    <div class="unit">kW</div>
+                </div>
+                    
+                    <div class="irradianceBody">
+                    <div class="title">日射強度</div>
+                    <div class="value">0.01</div>
+                    <div class="unit">kw/㎡</div>
+                </div>
+                    
+                    <div class="tempBody">
+                    <div class="title">外気温度</div>
+                    <div class="value">14.8</div>
+                    <div class="unit">&#8451;</div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">サイト状況</div>
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">更新停止</div>
+
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                </div>
+        </a>
+
+    </div>
+    <div class="windowItem">
+        <a href="https://services121.energymntr.com/megasolar/JIO0147067/monitor/index.php?gid=1">
+            <div class="windowWidgetBody">
+                <div class="titileBody">
+                    <div class="title">栃木県那須町B地区（1680kW）</div>
+                </div>
+                
+                     <div class="powerBody">
+                    <div class="title">本日の発電電力量</div>
+                    <div class="value">2158</div>
+                    <div class="unit">kWh</div>
+                </div>
+                    
+                    <div class="powerBody">
+                    <div class="title">現在の発電電力</div>
+                    <div class="value">13.3</div>
+                    <div class="unit">kW</div>
+                </div>
+                    
+                    <div class="irradianceBody">
+                    <div class="title">日射強度</div>
+                    <div class="value">0.02</div>
+                    <div class="unit">kw/㎡</div>
+                </div>
+                    
+                    <div class="tempBody">
+                    <div class="title">外気温度</div>
+                    <div class="value">14.7</div>
+                    <div class="unit">&#8451;</div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">サイト状況</div>
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">更新停止</div>
+
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                </div>
+        </a>
+
+    </div>
+    <div class="windowItem">
+        <a href="https://services129.energymntr.com/megasolar/JKY0143099/monitor/index.php?gid=1">
+            <div class="windowWidgetBody">
+                <div class="titileBody">
+                    <div class="title">薩摩川内市A地区（2306kW）</div>
+                </div>
+                
+                     <div class="powerBody">
+                    <div class="title">本日の発電電力量</div>
+                    <div class="value">12292</div>
+                    <div class="unit">kWh</div>
+                </div>
+                    
+                    <div class="powerBody">
+                    <div class="title">現在の発電電力</div>
+                    <div class="value">481.1</div>
+                    <div class="unit">kW</div>
+                </div>
+                    
+                    <div class="irradianceBody">
+                    <div class="title">日射強度</div>
+                    <div class="value">0.21</div>
+                    <div class="unit">kw/㎡</div>
+                </div>
+                    
+                    <div class="tempBody">
+                    <div class="title">外気温度</div>
+                    <div class="value">31.0</div>
+                    <div class="unit">&#8451;</div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">サイト状況</div>
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">更新停止</div>
+
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                </div>
+        </a>
+
+    </div>
+    <div class="windowItem">
+        <a href="https://services127.energymntr.com/megasolar/EBC0144355/monitor/index.php?gid=1">
+            <div class="windowWidgetBody">
+                <div class="titileBody">
+                    <div class="title">薩摩川内市B地区（1263kW）</div>
+                </div>
+                
+                     <div class="powerBody">
+                    <div class="title">本日の発電電力量</div>
+                    <div class="value">6733</div>
+                    <div class="unit">kWh</div>
+                </div>
+                    
+                    <div class="powerBody">
+                    <div class="title">現在の発電電力</div>
+                    <div class="value">219.4</div>
+                    <div class="unit">kW</div>
+                </div>
+                    
+                    <div class="irradianceBody">
+                    <div class="title">日射強度</div>
+                    <div class="value">0.18</div>
+                    <div class="unit">kw/㎡</div>
+                </div>
+                    
+                    <div class="tempBody">
+                    <div class="title">外気温度</div>
+                    <div class="value">32.2</div>
+                    <div class="unit">&#8451;</div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">サイト状況</div>
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">更新停止</div>
+
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                </div>
+        </a>
+
+    </div>
+    <div class="windowItem">
+        <a href="https://services151.energymntr.com/megasolar/FHK0152886/monitor/index.php?gid=1">
+            <div class="windowWidgetBody">
+                <div class="titileBody">
+                    <div class="title">能勢宿野発電所(605kW)</div>
+                </div>
+                
+                     <div class="powerBody">
+                    <div class="title">本日の発電電力量</div>
+                    <div class="value">2782</div>
+                    <div class="unit">kWh</div>
+                </div>
+                    
+                    <div class="powerBody">
+                    <div class="title">現在の発電電力</div>
+                    <div class="value">143.9</div>
+                    <div class="unit">kW</div>
+                </div>
+                    
+                    <div class="irradianceBody">
+                    <div class="title">日射強度</div>
+                    <div class="value">0.19</div>
+                    <div class="unit">kw/㎡</div>
+                </div>
+                    
+                    <div class="tempBody">
+                    <div class="title">外気温度</div>
+                    <div class="value">30.1</div>
+                    <div class="unit">&#8451;</div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">サイト状況</div>
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">更新停止</div>
+
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                </div>
+        </a>
+
+    </div>
+    <div class="windowItem">
+        <a href="https://services157.energymntr.com/megasolar/VRD0153415/monitor/index.php?gid=1">
+            <div class="windowWidgetBody">
+                <div class="titileBody">
+                    <div class="title">行方市太陽光発電設備（1335kW）</div>
+                </div>
+                
+                     <div class="powerBody">
+                    <div class="title">本日の発電電力量</div>
+                    <div class="value">2165</div>
+                    <div class="unit">kWh</div>
+                </div>
+                    
+                    <div class="powerBody">
+                    <div class="title">現在の発電電力</div>
+                    <div class="value">74.7</div>
+                    <div class="unit">kW</div>
+                </div>
+                    
+                    <div class="irradianceBody">
+                    <div class="title">日射強度</div>
+                    <div class="value">0.09</div>
+                    <div class="unit">kw/㎡</div>
+                </div>
+                    
+                    <div class="tempBody">
+                    <div class="title">外気温度</div>
+                    <div class="value">21.9</div>
+                    <div class="unit">&#8451;</div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">サイト状況</div>
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">更新停止</div>
+
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                </div>
+        </a>
+
+    </div>
+    <div class="windowItem">
+        <a href="https://services174.energymntr.com/megasolar/QTE0155210/monitor/index.php?gid=1">
+            <div class="windowWidgetBody">
+                <div class="titileBody">
+                    <div class="title">茨城久野ＭＧ発電所（2168kW）</div>
+                </div>
+                
+                     <div class="powerBody">
+                    <div class="title">本日の発電電力量</div>
+                    <div class="value">2609</div>
+                    <div class="unit">kWh</div>
+                </div>
+                    
+                    <div class="powerBody">
+                    <div class="title">現在の発電電力</div>
+                    <div class="value">87.2</div>
+                    <div class="unit">kW</div>
+                </div>
+                    
+                    <div class="irradianceBody">
+                    <div class="title">日射強度</div>
+                    <div class="value">0.05</div>
+                    <div class="unit">kw/㎡</div>
+                </div>
+                    
+                    <div class="tempBody">
+                    <div class="title">外気温度</div>
+                    <div class="value">20.8</div>
+                    <div class="unit">&#8451;</div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">サイト状況</div>
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">更新停止</div>
+
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                </div>
+        </a>
+
+    </div>
+    <div class="windowItem">
+        <a href="https://services117.energymntr.com/megasolar/YLU0143380/monitor/index.php?gid=1">
+            <div class="windowWidgetBody">
+                <div class="titileBody">
+                    <div class="title">出水市野田町（966kW）</div>
+                </div>
+                
+                     <div class="powerBody">
+                    <div class="title">本日の発電電力量</div>
+                    <div class="value">5666</div>
+                    <div class="unit">kWh</div>
+                </div>
+                    
+                    <div class="powerBody">
+                    <div class="title">現在の発電電力</div>
+                    <div class="value">223.5</div>
+                    <div class="unit">kW</div>
+                </div>
+                    
+                    <div class="irradianceBody">
+                    <div class="title">日射強度</div>
+                    <div class="value">0.25</div>
+                    <div class="unit">kw/㎡</div>
+                </div>
+                    
+                    <div class="tempBody">
+                    <div class="title">外気温度</div>
+                    <div class="value">30.2</div>
+                    <div class="unit">&#8451;</div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">サイト状況</div>
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                    
+                    <div class="siteStateBody">
+                    <div class="title">更新停止</div>
+
+                            <div class="state normal">
+                    <div class="img"><div class="label">正常</div></div>
+                            </div>
+                </div>
+                </div>
+        </a>
+
+    </div>
+</div>
+                </div>
+                <div class="whiteBgBottom"></div>
+             </div>
+
+             <div class="grayBgBottom"></div>
+        </div>
+    </div>
+</div>
+
+
+
+</div><!--mainEND-->
+</div><!--mainContentAreaEND-->
+</div><!--wrapperEND-->
+
+<!--footer-->
+<div id="footer">
+<p>Copyright (C) 2012- Laplace Systems Co., Ltd. All rights reserved.</p>
+
+</body>
+</html>

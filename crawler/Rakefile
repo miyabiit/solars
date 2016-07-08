@@ -1,0 +1,52 @@
+require 'mongoid'
+require 'rake/testtask'
+
+AppRoute = Pathname.new(File.expand_path(File.dirname(__FILE__)))
+AppEnv = ENV['APP_ENV'] && ENV['APP_ENV'].length > 0 ? ENV['APP_ENV'] : 'development'
+
+task :connect_db do
+  Dir[AppRoute.join('app', 'models').to_s + '/*.rb'].each do |model_path|
+    require model_path
+  end
+  Mongoid.load!(AppRoute.join('config', 'mongoid.yml'), AppEnv)
+end
+
+namespace :db do
+  namespace :mongoid do
+
+    desc "create mongodb indexes"
+    task :create_indexes => [:connect_db] do
+      ::Mongoid::Tasks::Database.create_indexes
+    end
+
+    desc "remote mongodb indexes"
+    task :remove_indexes => [:connect_db] do
+      ::Mongoid::Tasks::Database.remove_indexes
+    end
+
+    desc "remote undefined mongodb indexes"
+    task :remove_undefined_indexes => [:connect_db] do
+      ::Mongoid::Tasks::Database.remove_undefined_indexes
+    end
+
+    desc "remote undefined mongodb indexes"
+    task :undefined_indexes => [:connect_db] do
+      ::Mongoid::Tasks::Database.undefined_indexes.each do |result|
+        puts result
+      end
+    end
+  end
+
+  desc "create initial collection"
+  task :seed => [:connect_db] do
+    eval(File.read(AppRoute.join('db', 'seed.rb').to_s))
+  end
+
+end
+
+Rake::TestTask.new do |test|
+  test.libs += ['test/unit', 'app', 'app/models', 'app/lib']
+  test.test_files = Dir[ 'test/**/*_test.rb' ]
+  test.verbose = false
+  test.warning = false
+end

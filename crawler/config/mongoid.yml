@@ -1,0 +1,22 @@
+default: &default
+  clients:
+    default:
+      database: solarsdb
+      hosts:
+        - localhost:27017
+
+development:
+  <<: *default
+
+test:
+  clients:
+    default:
+      database: solarsdb_test
+      hosts:
+        - localhost:27017
+
+staging:
+  <<: *default
+
+production:
+  <<: *default

@@ -2,18 +2,22 @@
 
 var _ = require('lodash');
 var Summary = require('./summary.model');
+var moment = require('moment');
 
 // Get list of summary
 exports.index = function(req, res) {
-  Summary.find({'status':'last'}, function (err, summary) {
+  Summary.findOne({'date': moment().format('YYYYMMDD')})
+         .sort('-date_time') 
+         .exec(function (err, summary) {
     if(err) { return handleError(res, err); }
+    if(!summary) { return res.send(404); }
     return res.json(200, summary);
   });
 };
 
 // Get list of day summary
 exports.days = function(req, res) {
-	Summary.find({'status':'day'}, function(err, summary){
+	Summary.find({'date': moment().format('YYYYMMDD')}, function(err, summary){
 		if(err){ return handleError(res, err); }
 		return res.json(200, summary);
 	});
