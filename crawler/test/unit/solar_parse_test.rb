@@ -6,7 +6,10 @@ class SolarParseTest < Minitest::Test
   def setup
     Summary.delete_all
     Solar.delete_all
+    EcoMeganeHourData.delete_all
     Facility.delete_all
+    DailySolar.delete_all
+    DailySummary.delete_all
   end
 
   def teardown
@@ -41,7 +44,11 @@ class SolarParseTest < Minitest::Test
     assert_equal '2016/07/05', summary.update_date
     assert_equal '17:33', summary.update_time
 
-    # TODO: check sales, date, date_time
+    assert_equal  1492596, summary.sales
+
+    # TODO: 日付固定
+    assert_equal Date.today.strftime('%Y%m%d'), summary.date
+    assert (summary.date_time > Time.now.ago(10.minutes) && summary.date_time < Time.now)
 
     # test solars ==
     solar = Solar.where(name: '宝塚市境野（500kW）').first
@@ -65,6 +72,12 @@ class SolarParseTest < Minitest::Test
     assert_equal 'サイト状況', solar.site_title
     assert_equal '正常', solar.site_status
 
-    # TODO: check sales, date, date_time
+    assert_equal 36 * 1912, solar.sales
+
+    # TODO: 日付固定
+    assert_equal Date.today.strftime('%Y%m%d'), solar.date
+    assert (solar.date_time > Time.now.ago(10.minutes) && solar.date_time < Time.now)
+
+
   end
 end
