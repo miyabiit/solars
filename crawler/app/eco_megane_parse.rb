@@ -43,12 +43,11 @@ module Crawler
       click_link "ログイン"
     end
 
-    def get_csv
-      target_date = Date.today
+    def get_csv(target_date = Date.today)
       response = post('https://partner.eco-megane.jp/i/index.php', {
         'outputKind' => 0,
         'dayflg' => 0,
-        'measureGenerateAmountFrom' => target_date.ago(1.day).strftime('%Y/%m/%d'),
+        'measureGenerateAmountFrom' => target_date.strftime('%Y/%m/%d'),
         'measureGenerateAmountTo' => target_date.strftime('%Y/%m/%d'),
         'fnc' => 'bmypagetop',
         'act' => 'csvDownloadMeasureGenerateAmount',
@@ -116,11 +115,13 @@ if $0 === __FILE__
   AppEnv = ENV['APP_ENV'].presence || 'development'
   Mongoid.load!(AppRoute.join('config', 'mongoid.yml'), AppEnv)
 
+  target_time = (ARGV[0] == 'yesterday' ? Date.yesterday.to_time.end_of_day : Time.now)
+  target_date = target_time.to_date
+
   crawler = Crawler::EcoMegane.new
   crawler.login
-  crawler.get_csv
+  crawler.get_csv(target_date)
 
-  aggregator = EcoMeganeAggregator.new(Time.now)
-  aggregator.aggregate
-  SummaryAggregator.new(Time.now).aggregate
+  EcoMeganeAggregator.new(target_time).aggregate
+  SummaryAggregator.new(target_time).aggregate
 end
