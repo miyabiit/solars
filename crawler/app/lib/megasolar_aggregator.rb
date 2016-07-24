@@ -19,10 +19,7 @@ class MegasolarAggregator
         { :$match => date_query.merge({site_status: '正常'}) },
         { :$group => { _id: {date: '$date', facility_id: "$facility_id" },
                        facility_id: { :$last => "$facility_id" },
-                       total_kwh: { :$max => "$today_kwh" },
-                       avg_kw: { :$avg => "$now_kw"},
-                       avg_sun: { :$avg => "$sun_value"},
-                       avg_temp: { :$avg => "$temp_value"}
+                       total_kwh: { :$max => "$today_kwh" }
                      } 
         }
       ])
