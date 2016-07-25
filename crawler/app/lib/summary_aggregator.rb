@@ -15,6 +15,7 @@ class SummaryAggregator
     def aggregate_daily_summaries
       date_query = { date: current_time.strftime('%Y%m%d') }
 
+      # TODO: たまに前日の値が返ってくることがある？ 更新タイミングに依存している可能性が高い
       mega_summary_data = Summary.collection.aggregate([
         { :$match => date_query.merge({site_status: '正常'}) },
         { :$group => { _id: {date: '$date'},
@@ -36,9 +37,10 @@ class SummaryAggregator
       mega_data = mega_summary_data.first
       eco_data = eco_megane_summary_data.first
       daily_summary = DailySummary.find_or_initialize_by(_id: (mega_data.try(:[], :_id) || eco_data.try(:[], :_id) ))
-      daily_summary.total_kwh = (mega_data.try(:[], 'total_kwh') || 0) + (eco_data.try(:[], 'total_kwh') || 0)
+      daily_summary.total_kwh = (eco_data.try(:[], 'total_kwh') || 0)
       daily_summary.sales = eco_data.try(:[], 'sales') || 0
       if last_summary_in_date = Summary.where(date_query).order_by(date_time: 'desc').first
+        daily_summary.total_kwh += last_summary_in_date.today_kwh
         daily_summary.sales += last_summary_in_date.sales
       end
       daily_summary.date_time = current_time
