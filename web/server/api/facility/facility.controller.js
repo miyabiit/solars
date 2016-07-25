@@ -5,7 +5,12 @@ var Facility = require('./facility.model');
 
 // Get list of facilities
 exports.index = function(req, res) {
-  Facility.find({})
+  var type = req.params.type;
+  var params = {};
+  if (type != undefined) {
+    params = {_type: type};
+  }
+  Facility.find(params)
     .sort("name")
     .exec(function(err, facilities) {
       if(err) { return handleError(res, err); }

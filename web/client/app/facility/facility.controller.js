@@ -4,7 +4,7 @@ angular.module('solarwebApp')
   .controller('FacilityCtrl', function ($scope, $http, Auth, User) {
     $scope.facilities = [];
 
-		$http.get('/api/facilities').success(function(facilities){
+		$http.get('/api/facilities/type/MegasolarFacility').success(function(facilities){
 			$scope.facilities = facilities;
 		});
 
