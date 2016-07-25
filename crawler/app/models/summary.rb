@@ -26,6 +26,6 @@ class Summary
   index({ date_time: -1 })
   index({ date: -1 })
 
-  before_save { self.date = self.update_time.gsub(/\//, '') if self.update_time }
+  before_save { self.date = self.update_date.gsub(/\//, '') if self.update_date }
 
 end
