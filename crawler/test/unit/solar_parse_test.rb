@@ -17,6 +17,7 @@ class SolarParseTest < Minitest::Test
 
   def test_saved_data
     html = File.read('test/data/html/solars.html')
+    html.gsub!(/2016\/07\/05/, Date.today.strftime('%Y/%m/%d')) # change update_date
     crawler = ::Crawler::Megasolar.new
     crawler.solar_page = Nokogiri::HTML.parse(html)
     crawler.parse
@@ -41,7 +42,7 @@ class SolarParseTest < Minitest::Test
     assert_equal '正常', summary.site_status
 
     assert_equal '表示更新日時', summary.update_title
-    assert_equal '2016/07/05', summary.update_date
+    assert_equal Date.today.strftime('%Y/%m/%d'), summary.update_date
     assert_equal '17:33', summary.update_time
 
     assert_equal  1492596, summary.sales

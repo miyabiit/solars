@@ -23,6 +23,7 @@ class SummaryAggregatorTest < Minitest::Test
     EcoMeganeAggregator.new(target_time).aggregate
 
     html = File.read('test/data/html/solars.html')
+    html.gsub!(/2016\/07\/05/, '2016/07/24') # change update_date
     crawler = ::Crawler::Megasolar.new
     crawler.solar_page = Nokogiri::HTML.parse(html)
     crawler.parse
