@@ -5,6 +5,62 @@
 </header>
 <div class="container">
 
+<h3>全発電所合計</h3>
+  <div class="row">
+    <div class="span8">
+  <table class="table table-striped">
+    <tr>
+      <th>本日累積</th>
+      <th>本日売電</th>
+      <th>更新時刻</th>
+    </tr>
+    <tr>
+      <td align="right">
+        {{daily_summary.total_kwh | number | none}}&nbsp;kWh
+      </td>
+      <td align="right">
+        {{daily_summary.sales | number | none}}&nbsp;円
+      </td>
+      <td align="right">
+        {{daily_summary.date_time | date: 'yyyy/MM/dd HH:mm'}}
+      </td>
+    </tr>
+  </table>
+    </div>
+  </div>
+<hr/>
+
+<h3>エコめがね</h3>
+<div class="row">
+	<div class="span8">
+<table class="table table-striped">
+	<tr>
+		<th>発電所</th>
+		<th>本日累積</th>
+		<th>本日売電</th>
+		<th>更新時刻</th>
+	</tr>
+	<tr ng:repeat="eco_solar in eco_megane_solars">
+		<td>
+			{{eco_solar.facility_id.name | none}}
+		</td>
+		<td align="right">
+			{{eco_solar.total_kwh | number | none}}&nbsp;kWh
+		</td>
+		<td align="right">
+			{{eco_solar.sales | number | none}}&nbsp;円
+		</td>
+		<td align="right">
+			{{eco_solar.date_time | date: 'yyyy/MM/dd HH:mm'}}
+		</td>
+  </tr>
+</table>
+  </div>
+</div>
+
+<hr/>
+
+<h3>Solar Link</h3>
 <div class="row">
 	<div class="span8">
 <table class="table table-striped">

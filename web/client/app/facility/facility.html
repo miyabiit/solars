@@ -1,23 +1,48 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
+  <h3>施設</h3>
   <div class="row">
     <div class="well col-md-4" style="height: 130px" ng-repeat="facility in facilities">
       <strong>{{facility.name}}</strong>
-      <a ng-show="!facility.isEdit" ng-click="edit(facility)" class="pull-right btn btn-success"><span class="glyphicon glyphicon-edit">編集</span></a>
+      <a ng-show="!facility.isEdit" ng-click="edit_facility(facility)" class="pull-right btn btn-success"><span class="glyphicon glyphicon-edit">編集</span></a>
       <span class="pull-right">
-        <a ng-show="facility.isEdit" ng-click="save(facility)" class="btn btn-primary"><span class="glyphicon glyphicon-ok">保存</span></a>
-        <a ng-show="facility.isEdit" ng-click="cancel(facility)" class="btn btn-default"><span class="glyphicon glyphicon-remove">キャンセル</span></a>
+        <a ng-show="facility.isEdit" ng-click="save_facility(facility)" class="btn btn-primary"><span class="glyphicon glyphicon-ok">保存</span></a>
+        <a ng-show="facility.isEdit" ng-click="cancel_facility(facility)" class="btn btn-default"><span class="glyphicon glyphicon-remove">キャンセル</span></a>
       </span>
       <br/>
       <hr/>
-      <form class="form-inline">
+      <form class="form-inline" ng-show="facility.unit_price">
         <label>単価(円/kWh):</label>
         <span ng-show="!facility.isEdit">{{facility.unit_price}}</span>
         <span ng-show="facility.isEdit">
           <input name="unit_price" type="number" class="form-control" ng-model="facility.unit_price" required />
         </span>
       </form>
-    </li>
-  </ul>
+    </div>
+  </div>
+
+  <hr/>
+
+  <h3>設備</h3>
+  <div class="row">
+    <div class="well col-md-4" style="height: 130px" ng-repeat="equipment in equipments">
+      <strong>{{equipment.facility_id.name}} {{equipment.name}}</strong>
+      <a ng-show="!equipment.isEdit" ng-click="edit_equipment(equipment)" class="pull-right btn btn-success"><span class="glyphicon glyphicon-edit">編集</span></a>
+      <span class="pull-right">
+        <a ng-show="equipment.isEdit" ng-click="save_equipment(equipment)" class="btn btn-primary"><span class="glyphicon glyphicon-ok">保存</span></a>
+        <a ng-show="equipment.isEdit" ng-click="cancel_equipment(equipment)" class="btn btn-default"><span class="glyphicon glyphicon-remove">キャンセル</span></a>
+      </span>
+      <br/>
+      <hr/>
+      <form class="form-inline">
+        <label>単価(円/kWh):</label>
+        <span ng-show="!equipment.isEdit">{{equipment.unit_price}}</span>
+        <span ng-show="equipment.isEdit">
+          <input name="unit_price" type="number" class="form-control" ng-model="equipment.unit_price" required />
+        </span>
+      </form>
+    </div>
+  </div>
+
 </div>

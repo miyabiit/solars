@@ -80,8 +80,7 @@ module Crawler
 # "現在の合計発電電力,317.8,kW,本日の合計発電電力量,9011,kWh,積算発電電力量,4498866,kWh,サイト状況,正常,表示更新日時,2015/05/09,15:47"
 #  1                   2                3   4   5              6     7  8        9    10    11       12     13         14
 # "宝塚市境野（500kW）,本日の発電電力量,661,kWh,現在の発電電力,118.3,kW,日射強度,0.27,kw/㎡,外気温度,20.0,℃,サイト状況,正常"
-    def save
-      current_time = Time.now
+    def save(current_time = Time.now)
       total_sales = 0
 
       @solars.each do |s|
@@ -138,7 +137,7 @@ module Crawler
     private
 
       def find_or_create_facility(name)
-        Facility.where(name: name).find_one_and_update(
+        MegasolarFacility.where(name: name).find_one_and_update(
           { :$setOnInsert => { unit_price: 36 } },
           return_document: :after,
           upsert: true
@@ -165,6 +164,7 @@ if $0 === __FILE__
     p s[0, s.size - 2].join(",")
   end
 
-  aggregator = Aggregator.new(Time.now)
+  aggregator = MegasolarAggregator.new(Time.now)
   aggregator.aggregate
+  SummaryAggregator.new(Time.now).aggregate
 end
