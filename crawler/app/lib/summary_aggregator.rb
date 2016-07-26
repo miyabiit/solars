@@ -36,14 +36,17 @@ class SummaryAggregator
 
       mega_data = mega_summary_data.first
       eco_data = eco_megane_summary_data.first
-      daily_summary = DailySummary.find_or_initialize_by(_id: (mega_data.try(:[], :_id) || eco_data.try(:[], :_id) ))
-      daily_summary.total_kwh = (eco_data.try(:[], 'total_kwh') || 0)
-      daily_summary.sales = eco_data.try(:[], 'sales') || 0
-      if last_summary_in_date = Summary.where(date_query).order_by(date_time: 'desc').first
-        daily_summary.total_kwh += last_summary_in_date.today_kwh
-        daily_summary.sales += last_summary_in_date.sales
+      target_id = mega_data.try(:[], :_id) || eco_data.try(:[], :_id)
+      if target_id
+        daily_summary = DailySummary.find_or_initialize_by(_id: target_id)
+        daily_summary.total_kwh = (eco_data.try(:[], 'total_kwh') || 0)
+        daily_summary.sales = eco_data.try(:[], 'sales') || 0
+        if last_summary_in_date = Summary.where(date_query).order_by(date_time: 'desc').first
+          daily_summary.total_kwh += last_summary_in_date.today_kwh
+          daily_summary.sales += last_summary_in_date.sales
+        end
+        daily_summary.date_time = current_time
+        daily_summary.save
       end
-      daily_summary.date_time = current_time
-      daily_summary.save
     end
 end
