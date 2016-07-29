@@ -1,52 +1,158 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <header class="hero-unit" id="banner">
-	<h2>SHALLONTEC SOLORS (日別集計)</h2>
+  <h2>SHALLONTEC SOLORS (日別集計)</h2>
 </header>
+<br/>
 <div class="container">
 
-<div class="row">
-	<div class="span8">
-<table class="table table-striped">
-	<tr>
-		<th>日付</th>
-		<th align="right">本日累積</th>
-		<th align="right">本日売電</th>
-		<th align="right">障害(最終ステータス)</th>
-	</tr>
-	<tr class="info" ng:repeat="solar in solars">
-		<td align="right">
-			{{solar.name}}
-		</td>
-		<td align="right">
-			{{solar.date_time}}
-		</td>
-		<td align="right">
-			{{solar.date_time}}
-		</td>
-		<td align="right">
-			{{summary.site_status}}
-		</td>
-	</tr>
-	<tr class="info">
-		<td>
-			{{summary.date_time}}</br>
-		</td>
-		<td align="right">
-			{{summary.today_kwh}}&nbsp;{{summary.today_unit}}
-		</td>
-		<td align="right">
-			{{summary.sales}}&nbsp;円
-		</td>
-		<td align="right">
-			{{summary.site_status}}
-		</td>
-	</tr>
-</table>
-	</div>
-	<div class="span4">
-	&nbsp;
-	</div>
-</div>
-</div>
+  <span us-spinner="{radius:30, width:8, length: 16}" spinner-on="loading"></span>
+
+  <div class="row">
+    <ul class="nav nav-tabs">
+      <li role="presentation" ng-class="selectedTab == 'summaries' ? 'active' : ''"><a href="#" ng-click="selectTab('summaries')">全発電所合計</a></li>
+      <li role="presentation" ng-class="selectedTab == 'solars' ? 'active' : ''"><a href="#" ng-click="selectTab('solars')">発電所別</a></li>
+    </ul>
+
+  </div>
+
+  <br/>
+
+  <div class="alert alert-warning" role="alert"><strong>表示件数に制限がないため、指定期間は60日以内にしてください。</strong></div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">期間</div>
+        <div class="panel-body">
+          <form class="form-inline">
+            <input type="text"
+                   ng-model="dateFrom.value"
+                   datepicker-popup
+                   is-open="dateFrom.pickerOpen"
+                   ng-click="dateFrom.toggle($event)"
+                   current-text="今日" 
+                   clear-text="クリア"
+                   close-text="閉じる" 
+                   class="form-control"
+                   placeholder="日付(開始日)"/>
+            &nbsp;〜&nbsp;
+            <input type="text"
+                   ng-model="dateTo.value"
+                   datepicker-popup
+                   is-open="dateTo.pickerOpen"
+                   ng-click="dateTo.toggle($event)"
+                   current-text="今日"
+                   clear-text="クリア"
+                   close-text="閉じる" 
+                   class="form-control"
+                   placeholder="日付(終了日)"/>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="pull-right">
+        <a class="btn btn-success" ng-href="{{getCsvDownloadURL()}}" target="_self">CSVダウンロード</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="summaries" ng-show="selectedTab == 'summaries'">
+    <div class="row">
+      <table class="table table-striped">
+        <colgroup>
+          <col width="20%">
+          <col width="40%">
+          <col width="40%">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <a href="#" ng-click="summariesSort.toggle('date')">
+                日付
+                <span ng-class="summariesSort.cssClass('date')" aria-hidden="true"></span>
+              </a>
+            </th>
+            <th>
+              <a href="#" ng-click="summariesSort.toggle('total_kwh')">
+                発電電力量
+                <span ng-class="summariesSort.cssClass('total_kwh')" aria-hidden="true"></span>
+              </a>
+            </th>
+            <th>
+              <a href="#" ng-click="summariesSort.toggle('sales')">
+                売電金額
+                <span ng-class="summariesSort.cssClass('sales')" aria-hidden="true"></span>
+              </a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="summary in daily_summaries | orderBy : summariesSort.selectedColumn : summariesSort.reverse">
+            <td>{{summary.date | date_slash}}</td>
+            <td align="right">{{summary.total_kwh | number | none}} kWh</td>
+            <td align="right">{{summary.sales | number | none}} 円</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="solars" ng-show="selectedTab == 'solars'">
+    <div class="row">
+      <table class="table table-striped">
+        <colgroup>
+          <col width="15%">
+          <col width="25%">
+          <col width="25%">
+          <col width="25%">
+          <col width="10%">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <a href="#" ng-click="solarsSort.toggle('date')">
+                日付
+                <span ng-class="solarsSort.cssClass('date')" aria-hidden="true"></span>
+              </a>
+            </th>
+            <th>
+              <a href="#" ng-click="solarsSort.toggle('facility_id.name')">
+                発電所
+                <span ng-class="solarsSort.cssClass('facility_id.name')" aria-hidden="true"></span>
+              </a>
+            </th>
+            <th>
+              <a href="#" ng-click="solarsSort.toggle('total_kwh')">
+                発電電力量
+                <span ng-class="solarsSort.cssClass('total_kwh')" aria-hidden="true"></span>
+              </a>
+            </th>
+            <th>
+              <a href="#" ng-click="solarsSort.toggle('sales')">
+                売電金額
+                <span ng-class="solarsSort.cssClass('sales')" aria-hidden="true"></span>
+              </a>
+            </th>
+            <th>
+              <a href="#" ng-click="solarsSort.toggle('site_status')">
+                障害
+                <span ng-class="solarsSort.cssClass('site_status')" aria-hidden="true"></span>
+              </a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="solar in daily_solars | orderBy : solarsSort.selectedColumn : solarsSort.reverse">
+            <td>{{solar.date | date_slash}}</td>
+            <td>{{solar.facility_id.name}}</td>
+            <td align="right">{{solar.total_kwh | number | none}} kWh</td>
+            <td align="right">{{solar.sales | number | none}} 円</td>
+            <td align="right">{{solar.site_status | none}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
