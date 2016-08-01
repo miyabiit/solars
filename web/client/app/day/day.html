@@ -144,7 +144,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="solar in daily_solars | orderBy : solarsSort.selectedColumn : solarsSort.reverse">
+          <tr ng-repeat="solar in daily_solars | orderBy : solarsSort.orderBy()">
             <td>{{solar.date | date_slash}}</td>
             <td>{{solar.facility_id.name}}</td>
             <td align="right">{{solar.total_kwh | number | none}} kWh</td>

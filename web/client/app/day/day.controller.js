@@ -93,6 +93,12 @@ angular.module('solarwebApp')
           }
           return '';
         },
+        orderBy: function() {
+          if (this.selectedColumn === 'date') {
+            return [(this.reverse ? '-' : '') + this.selectedColumn, 'facility_name']
+          }
+          return (this.reverse ? '-' : '') + this.selectedColumn;
+        },
         toggle: function(columnName) {
           this.selectedColumn = columnName;
           this.reverse = !this.reverse;
@@ -100,6 +106,6 @@ angular.module('solarwebApp')
       };
     };
 
-    $scope.summariesSort = genSortObj('date', false);
-    $scope.solarsSort = genSortObj('date', false);
+    $scope.summariesSort = genSortObj('date', true);
+    $scope.solarsSort = genSortObj('date', true);
   });

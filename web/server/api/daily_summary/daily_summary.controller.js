@@ -23,8 +23,7 @@ exports.index = function(req, res) {
   }
 
   DailySummary.find(query)
-              .sort({date_time: 1, facility_id: 1})
-              .populate('facility_id')
+              .sort({date: -1})
               .exec(function(err, daily_summaries) {
                 if(err) { return handleError(res, err); }
                 if (format == 'csv') {

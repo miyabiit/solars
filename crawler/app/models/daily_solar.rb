@@ -13,10 +13,14 @@ class DailySolar
   field   :sales,         type: Integer   # 日の売電額
   field   :date,          type: String    # 作成日(yyyymmdd)
   field   :date_time,     type: Time      # 作成日時
+  field   :facility_name, type: String    # 発電施設名
 
   index({ date_time: -1 })
   index({ date: -1 })
 
-  before_save { self.date = date_time.strftime('%Y%m%d') if self.date_time }
+  before_save {
+    self.date = date_time.strftime('%Y%m%d') if self.date_time
+    self.facility_name = facility.name if self.facility
+  }
 
 end
