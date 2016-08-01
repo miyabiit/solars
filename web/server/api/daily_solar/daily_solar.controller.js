@@ -25,7 +25,7 @@ exports.index = function(req, res) {
   }
 
   DailySolar.find(query)
-              .sort({date_time: 1, facility_id: 1})
+              .sort({date: -1, facility_name: 1})
               .populate('facility_id')
               .exec(function(err, daily_solars) {
                 if(err) { return handleError(res, err); }
