@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var SolarSchema = new Schema({
+  facility_id:   { type: Schema.Types.ObjectId, ref: 'Facility' },
   today_kwh:     Number,   // 本日の発電電力量(kWh)
   now_kw:        Number,   // 現在の発電電力(kw)
   sun_value:     Number,   // 日照強度(kw/㎡)

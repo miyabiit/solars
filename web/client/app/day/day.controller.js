@@ -95,7 +95,7 @@ angular.module('solarwebApp')
         },
         orderBy: function() {
           if (this.selectedColumn === 'date') {
-            return [(this.reverse ? '-' : '') + this.selectedColumn, 'facility_name']
+            return [(this.reverse ? '-' : '') + this.selectedColumn, 'facility_id.order_num', 'facility_id.disp_name']
           }
           return (this.reverse ? '-' : '') + this.selectedColumn;
         },

@@ -42,7 +42,7 @@
 	</tr>
 	<tr ng:repeat="eco_solar in eco_megane_solars">
 		<td>
-			{{eco_solar.facility_id.name | none}}
+			{{eco_solar.facility_id.disp_name | none}}
 		</td>
 		<td align="right">
 			{{eco_solar.total_kwh | number | none}}&nbsp;kWh
@@ -74,7 +74,7 @@
 	</tr>
 	<tr ng:repeat="solar in solars" ng-class="solar.site_status == '異常' ? 'danger' : ''">
 		<td>
-			{{solar.name}}
+			{{solar.facility_id.disp_name}}
 		</td>
 		<td align="right">
 			{{solar.today_kwh | number | none}}&nbsp;{{solar.today_unit}}

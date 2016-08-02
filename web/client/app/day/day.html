@@ -118,9 +118,9 @@
               </a>
             </th>
             <th>
-              <a href="#" ng-click="solarsSort.toggle('facility_id.name')">
+              <a href="#" ng-click="solarsSort.toggle('facility_id.disp_name')">
                 発電所
-                <span ng-class="solarsSort.cssClass('facility_id.name')" aria-hidden="true"></span>
+                <span ng-class="solarsSort.cssClass('facility_id.disp_name')" aria-hidden="true"></span>
               </a>
             </th>
             <th>
@@ -146,7 +146,7 @@
         <tbody>
           <tr ng-repeat="solar in daily_solars | orderBy : solarsSort.orderBy()">
             <td>{{solar.date | date_slash}}</td>
-            <td>{{solar.facility_id.name}}</td>
+            <td>{{solar.facility_id.disp_name}}</td>
             <td align="right">{{solar.total_kwh | number | none}} kWh</td>
             <td align="right">{{solar.sales | number | none}} 円</td>
             <td align="right">{{solar.site_status | none}}</td>
