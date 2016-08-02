@@ -42,6 +42,11 @@ namespace :db do
     eval(File.read(AppRoute.join('db', 'seed.rb').to_s))
   end
 
+  namespace :task do
+    Dir[AppRoute.join('db', 'tasks', '**', '*.rake').to_s].each do |path|
+      load path
+    end
+  end
 end
 
 Rake::TestTask.new do |test|

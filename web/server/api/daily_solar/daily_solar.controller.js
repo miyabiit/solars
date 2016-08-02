@@ -29,10 +29,11 @@ exports.index = function(req, res) {
               .populate('facility_id')
               .exec(function(err, daily_solars) {
                 if(err) { return handleError(res, err); }
+                daily_solars = _.orderBy(daily_solars, ['date', 'facility_id.order_num', 'facility_id.disp_name'], ['desc', 'asc', 'asc']);
                 if (format == 'csv') {
                   csv.downloadCSV(
                       res,
-                      {date: '日時', 'facility_id.name': '発電所', total_kwh: '発電電力量', sales: '売電金額', site_status: '障害'},
+                      {date: '日時', 'facility_id.disp_name': '発電所', total_kwh: '発電電力量', sales: '売電金額', site_status: '障害'},
                       _.map(daily_solars, function(v){
                         v.date = moment(v.date, 'YYYYMMDD').format('YYYY/MM/DD');
                         return v;
@@ -55,6 +56,7 @@ exports.current_eco_megane = function(req, res) {
               .populate('facility_id')
               .exec(function(err, daily_solars) {
                 if(err) { return handleError(res, err); }
+                daily_solars = _.sortBy(daily_solars, ['facility_id.order_num', 'facility_id.disp_name']);
                 return res.json(200, daily_solars);
             });
           });

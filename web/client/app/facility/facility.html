@@ -3,7 +3,7 @@
 <div class="container">
   <h3>施設</h3>
   <div class="row">
-    <div class="well col-md-4" style="height: 130px" ng-repeat="facility in facilities">
+    <div class="well col-md-4" style="height: 200px" ng-repeat="facility in facilities">
       <strong>{{facility.name}}</strong>
       <a ng-show="!facility.isEdit" ng-click="edit_facility(facility)" class="pull-right btn btn-success"><span class="glyphicon glyphicon-edit">編集</span></a>
       <span class="pull-right">
@@ -12,6 +12,19 @@
       </span>
       <br/>
       <hr/>
+      <form class="form-inline">
+        <label>表示名称:</label>
+        <span ng-show="!facility.isEdit">{{facility.disp_name}}</span>
+        <span ng-show="facility.isEdit">
+          <input name="disp_name" type="text" class="form-control" ng-model="facility.disp_name" required />
+        </span>
+        <br/>
+        <label>表示順:</label>
+        <span ng-show="!facility.isEdit">{{facility.order_num}}</span>
+        <span ng-show="facility.isEdit">
+          <input name="order_num" type="number" class="form-control" ng-model="facility.order_num" />
+        </span>
+      </form>
       <form class="form-inline" ng-show="facility.unit_price">
         <label>単価(円/kWh):</label>
         <span ng-show="!facility.isEdit">{{facility.unit_price}}</span>
@@ -19,6 +32,7 @@
           <input name="unit_price" type="number" class="form-control" ng-model="facility.unit_price" required />
         </span>
       </form>
+      <span class="text-info" ng-show="!facility.unit_price">※単価は設備にて設定</span>
     </div>
   </div>
 

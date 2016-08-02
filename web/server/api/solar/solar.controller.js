@@ -12,9 +12,10 @@ exports.index = function(req, res) {
     if(err) { return handleError(res, err); }
     if(!solar) { return res.send(404); }
     Solar.find({date_time: solar.date_time})
-            .sort("name")
+            .populate('facility_id')
             .exec(function(err, solars) {
       if(err) { return handleError(res, err); }
+      solars = _.sortBy(solars, ['facility_id.order_num', 'facility_id.disp_name', 'name']);
       return res.json(200, solars);
     });
   });
