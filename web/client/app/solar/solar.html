@@ -3,8 +3,11 @@
 <header class="hero-unit" id="banner">
   <h2>SHALLONTEC SOLARS</h2>
 </header>
-<div class="container">
+<div class="container" ng-init="autoReload.toggle()">
 
+  <div class="pull-right">
+    <a href="#" ng-click="autoReload.toggle()">オートリロード: {{autoReload.text()}}</a>
+  </div>
   <h3>全発電所合計</h3>
   <div class="row">
     <div class="span8">
