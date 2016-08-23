@@ -1,137 +1,161 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <header class="hero-unit" id="banner">
-	<h2>SHALLONTEC SOLARS</h2>
+  <h2>SHALLONTEC SOLARS</h2>
 </header>
-<div class="container">
+<div class="container" ng-init="autoReload.toggle()">
 
-<h3>全発電所合計</h3>
+  <div class="pull-right">
+    <a href="#" ng-click="autoReload.toggle()">オートリロード: {{autoReload.text()}}</a>
+  </div>
+  <h3>全発電所合計</h3>
   <div class="row">
     <div class="span8">
-  <table class="table table-striped">
-    <tr>
-      <th>本日累積</th>
-      <th>本日売電</th>
-      <th>更新時刻</th>
-    </tr>
-    <tr>
-      <td align="right">
-        {{daily_summary.total_kwh | number | none}}&nbsp;kWh
-      </td>
-      <td align="right">
-        {{daily_summary.sales | number | none}}&nbsp;円
-      </td>
-      <td align="right">
-        {{daily_summary.date_time | date: 'yyyy/MM/dd HH:mm'}}
-      </td>
-    </tr>
-  </table>
+      <table class="table table-striped">
+        <colgroup>
+          <col width="30%" />
+          <col width="20%" />
+          <col width="20%" />
+          <col width="30%" />
+        </colgroup>
+        <tr>
+          <th></th>
+          <th>本日累積</th>
+          <th>本日売電</th>
+          <th>更新時刻</th>
+        </tr>
+        <tr>
+          <td></td>
+          <td align="right">
+            {{daily_summary.total_kwh | number | none}}&nbsp;kWh
+          </td>
+          <td align="right">
+            {{daily_summary.sales | number | none}}&nbsp;円
+          </td>
+          <td align="right">
+            {{daily_summary.date_time | date: 'yyyy/MM/dd HH:mm'}}
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
-<hr/>
+  <hr/>
 
-<h3>エコめがね</h3>
-<div class="row">
-	<div class="span8">
-<table class="table table-striped">
-	<tr>
-		<th>発電所</th>
-		<th>本日累積</th>
-		<th>本日売電</th>
-		<th>更新時刻</th>
-	</tr>
-	<tr ng:repeat="eco_solar in eco_megane_solars">
-		<td>
-			{{eco_solar.facility_id.disp_name | none}}
-		</td>
-		<td align="right">
-			{{eco_solar.total_kwh | number | none}}&nbsp;kWh
-		</td>
-		<td align="right">
-			{{eco_solar.sales | number | none}}&nbsp;円
-		</td>
-		<td align="right">
-			{{eco_solar.date_time | date: 'yyyy/MM/dd HH:mm'}}
-		</td>
-  </tr>
-</table>
+  <h3>エコめがね</h3>
+  <div class="row">
+    <div class="span8">
+      <table class="table table-striped">
+        <colgroup>
+          <col width="30%" />
+          <col width="20%" />
+          <col width="20%" />
+          <col width="30%" />
+        </colgroup>
+        <tr>
+          <th>発電所</th>
+          <th>本日累積</th>
+          <th>本日売電</th>
+          <th>更新時刻</th>
+        </tr>
+        <tr ng:repeat="eco_solar in eco_megane_solars">
+          <td>
+            {{eco_solar.facility_id.disp_name | none}}
+          </td>
+          <td align="right">
+            {{eco_solar.total_kwh | number | none}}&nbsp;kWh
+          </td>
+          <td align="right">
+            {{eco_solar.sales | number | none}}&nbsp;円
+          </td>
+          <td align="right">
+            {{eco_solar.date_time | date: 'yyyy/MM/dd HH:mm'}}
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
-</div>
 
-<hr/>
+  <hr/>
 
-<h3>Solar Link</h3>
-<div class="row">
-	<div class="span8">
-<table class="table table-striped">
-	<tr>
-		<th>発電所</th>
-		<th>本日累積</th>
-		<th>本日売電</th>
-		<th>現在</th>
-		<th>日射強度</br>温度</th>
-		<th>障害</th>
-	</tr>
-	<tr ng:repeat="solar in solars" ng-class="solar.site_status == '異常' ? 'danger' : ''">
-		<td>
-			{{solar.facility_id.disp_name}}
-		</td>
-		<td align="right">
-			{{solar.today_kwh | number | none}}&nbsp;{{solar.today_unit}}
-		</td>
-		<td align="right">
-			{{solar.sales | number | none}}&nbsp;円
-		</td>
-		<td align="right">
-			{{solar.now_kw | number | none}}&nbsp;{{solar.now_unit}}
-		</td>
-		<td align="right">
-			{{solar.sun_value | none}}&nbsp;{{solar.sun_unit}}</br> {{solar.temp_value | none}}&nbsp;{{solar.temp_unit}}
-		</td>
-		<td align="right">
-			{{solar.site_status}}
-		</td>
-	</tr>
-	<tr class="info">
-		<td>
-			{{summary.today_title}}&nbsp;(&nbsp;{{summary.date_time | date: 'yyyy/MM/dd HH:mm'}}&nbsp;)</br>
-		</td>
-		<td align="right">
-			{{summary.today_kwh | number | none}}&nbsp;{{summary.today_unit}}
-		</td>
-		<td align="right">
-			{{summary.sales | number | none}}&nbsp;円
-		</td>
-		<td align="right">
-			{{summary.now_kw | number | none}}&nbsp;{{summary.now_unit}}
-		</td>
-		<td></td>
-		<td align="right">
-			{{summary.site_status}}
-		</td>
-	</tr>
-	<tr class="info">
-		<td>
-			{{summary.total_title}}
-		</td>
-		<td align="right">
-			{{summary.total_kwh | number | none}}&nbsp;{{summary.total_unit}}
-		</td>
-		<td>
-			&nbsp;
-		</td>
-		<td colspan="2" align="right">
-			&nbsp;
-		</td>
-		<td align="right">
-			&nbsp;
-		</td>
-	</tr>
-</table>
-	</div>
-	<div class="span4">
-	&nbsp;
-	</div>
-</div>
-</div>
+  <h3>Solar Link</h3>
+  <div class="row">
+    <div class="span8">
+      <table class="table table-striped">
+        <colgroup>
+          <col width="30%" />
+          <col width="20%" />
+          <col width="20%" />
+          <col width="15%" />
+          <col width="10%" />
+          <col width="5%" />
+        </colgroup>
+        <tr>
+          <th>発電所</th>
+          <th>本日累積</th>
+          <th>本日売電</th>
+          <th>現在</th>
+          <th>日射強度</br>温度</th>
+          <th>障害</th>
+        </tr>
+        <tr ng:repeat="solar in solars" ng-class="solar.site_status == '異常' ? 'danger' : ''">
+          <td>
+            {{solar.facility_id.disp_name}}
+          </td>
+          <td align="right">
+            {{solar.today_kwh | number | none}}&nbsp;{{solar.today_unit}}
+          </td>
+          <td align="right">
+            {{solar.sales | number | none}}&nbsp;円
+          </td>
+          <td align="right">
+            {{solar.now_kw | number | none}}&nbsp;{{solar.now_unit}}
+          </td>
+          <td align="right">
+            {{solar.sun_value | none}}&nbsp;{{solar.sun_unit}}</br> {{solar.temp_value | none}}&nbsp;{{solar.temp_unit}}
+          </td>
+          <td align="right">
+            {{solar.site_status}}
+          </td>
+        </tr>
+        <tr class="info">
+          <td>
+            {{summary.today_title}}&nbsp;(&nbsp;{{summary.date_time | date: 'yyyy/MM/dd HH:mm'}}&nbsp;)</br>
+          </td>
+          <td align="right">
+            {{summary.today_kwh | number | none}}&nbsp;{{summary.today_unit}}
+          </td>
+          <td align="right">
+            {{summary.sales | number | none}}&nbsp;円
+          </td>
+          <td align="right">
+            {{summary.now_kw | number | none}}&nbsp;{{summary.now_unit}}
+          </td>
+          <td></td>
+          <td align="right">
+            {{summary.site_status}}
+          </td>
+        </tr>
+        <tr class="info">
+          <td>
+            {{summary.total_title}}
+          </td>
+          <td align="right">
+            {{summary.total_kwh | number | none}}&nbsp;{{summary.total_unit}}
+          </td>
+          <td>
+            &nbsp;
+          </td>
+          <td colspan="2" align="right">
+            &nbsp;
+          </td>
+          <td align="right">
+            &nbsp;
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="span4">
+      &nbsp;
+    </div>
+  </div>
 </div>
