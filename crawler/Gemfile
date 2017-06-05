@@ -14,3 +14,7 @@ gem 'activesupport'
 gem 'whenever'
 gem 'rake'
 gem 'moji'
+gem 'actionmailer'
+
+# development
+gem 'letter_opener'

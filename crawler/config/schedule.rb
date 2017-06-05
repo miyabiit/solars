@@ -20,6 +20,7 @@
 # Learn more: http://github.com/javan/whenever
 
 env 'PATH', ENV['PATH']
+env 'APP_ENV', @environment
 
 job_type :crawler, 'cd /home/ec2-user/node_apps/solars/current/crawler && /usr/bin/env bundle exec ruby :task :output'
 
@@ -31,6 +32,11 @@ end
 every 1.hour do
   set :output, -> { "> /var/log/eco_megane.log 2>&1" } # TODO: log rotation
   crawler "app/eco_megane_parse.rb"
+end
+
+every 1.hour do
+  set :output, -> { "> /var/log/notifier.log 2>&1" } # TODO: log rotation
+  crawler "app/notifier.rb"
 end
 
 every :day, at: "2:00 am" do

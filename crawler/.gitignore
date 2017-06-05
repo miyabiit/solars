@@ -1,2 +1,5 @@
 /vendor/bundle
 *.swp
+/tmp
+/config/mailer_schedule.yml
+/config/smtp.yml

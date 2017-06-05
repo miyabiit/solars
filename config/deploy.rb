@@ -52,6 +52,8 @@ set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
 set :linked_dirs, %w{log web/node_modules crawler/vendor/bundle}
 
+set :linked_files, fetch(:linked_files, []).push('crawler/config/mailer_schedule.yml', 'crawler/config/smtp.yml')
+
 # Default value for :scm is :git
 # set :scm, :git
 
