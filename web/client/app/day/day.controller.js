@@ -5,6 +5,8 @@ angular.module('solarwebApp')
     $scope.daily_solars = [];
     $scope.daily_summaries = [];
     $scope.loading = false;
+    $scope.summary_total_kwh_sum = 0;
+    $scope.summary_sales_sum = 0;
 
     $scope.selectedTab = 'summaries';
     $scope.selectTab = function(tabName) {
@@ -81,6 +83,10 @@ angular.module('solarwebApp')
       } else {
         $scope.search();
       }
+    });
+    $scope.$watch('daily_summaries', function(newValue) {
+      $scope.summary_total_kwh_sum = _.sumBy($scope.daily_summaries, 'total_kwh');
+      $scope.summary_sales_sum = _.sumBy($scope.daily_summaries, 'sales');
     });
 
     var genSortObj = function(defaultSelect, defaultReverse) {

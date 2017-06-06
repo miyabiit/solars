@@ -60,6 +60,21 @@
 
   <div id="summaries" ng-show="selectedTab == 'summaries'">
     <div class="row">
+      <div class="col-md-6">
+        <div class="well">
+          <label>合計発電電力量</label>
+          <h4>{{ summary_total_kwh_sum | number | none }} <small>kWh</small></h4>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="well">
+          <label>合計売電金額</label>
+          <h4>{{ summary_sales_sum | number | none }} <small>円</small></h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
       <table class="table table-striped">
         <colgroup>
           <col width="20%">
