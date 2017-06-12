@@ -66,6 +66,7 @@ module Crawler
         hash = Hash[*row.flat_map{|k, v| [Moji.han_to_zen(k.strip), v]}]
         data = EcoMeganeHourData.new(raw_data: hash, date_time: target_time)
         data.set_values
+        next if data.equipment_id.blank? || data.raw_data['都道府県'].blank?
         facility, equipment = find_or_create_facility_and_equipment(data.equipment_id, data.raw_data['設備名（ＭＥＭＯ）'], data.raw_data['都道府県'])
         data.facility = facility
         data.equipment = equipment
@@ -104,7 +105,7 @@ module Crawler
         equipment = Equipment.where(_id: equipment_id, self_id: equipment_id).find_one_and_update(
           {
             :$setOnInsert => { unit_price: 36, facility_id: facility.try(:id) },
-            :$set => {name: equipment_name }
+            :$set => { name: equipment_name }
           },
           return_document: :after,
           upsert: true
