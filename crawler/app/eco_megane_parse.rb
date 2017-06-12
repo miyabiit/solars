@@ -43,7 +43,7 @@ module Crawler
       click_link "ログイン"
     end
 
-    def get_csv(target_date = Date.today)
+    def get_csv(target_date = Date.today, is_update_all = false)
       response = post('https://partner.eco-megane.jp/i/index.php', {
         'outputKind' => 0,
         'dayflg' => 0,
@@ -53,11 +53,11 @@ module Crawler
         'act' => 'csvDownloadMeasureGenerateAmount',
       })
       if response.code.to_i == 200
-        create_hour_data_from_csv(response.body.encode("UTF-8", "Shift_JIS"))
+        create_hour_data_from_csv(response.body.encode("UTF-8", "Shift_JIS"), is_update_all)
       end
     end
 
-    def create_hour_data_from_csv(text)
+    def create_hour_data_from_csv(text, is_update_all)
       target_time = Time.now
       csv = CSV.new(text, headers: true)
       table = csv.read
@@ -66,13 +66,17 @@ module Crawler
         hash = Hash[*row.flat_map{|k, v| [Moji.han_to_zen(k.strip), v]}]
         data = EcoMeganeHourData.new(raw_data: hash, date_time: target_time)
         data.set_values
+        next if data.equipment_id.blank? || data.raw_data['都道府県'].blank?
         facility, equipment = find_or_create_facility_and_equipment(data.equipment_id, data.raw_data['設備名（ＭＥＭＯ）'], data.raw_data['都道府県'])
         data.facility = facility
         data.equipment = equipment
-        unless EcoMeganeHourData.where(date_time: data.date_time, equipment_id: data.equipment_id).exists?
+        if !EcoMeganeHourData.where(date_time: data.date_time, equipment_id: data.equipment_id).exists?
           data.save
-          #puts data.inspect
+        elsif is_update_all
+          EcoMeganeHourData.delete_all(date_time: data.date_time, equipment_id: data.equipment_id)
+          data.save
         end
+        #puts data.inspect
       end
     end
 
@@ -102,7 +106,10 @@ module Crawler
         )
 
         equipment = Equipment.where(_id: equipment_id, self_id: equipment_id).find_one_and_update(
-          { :$setOnInsert => { name: equipment_name, unit_price: 36, facility_id: facility.try(:id) } },
+          {
+            :$setOnInsert => { unit_price: 36, facility_id: facility.try(:id) },
+            :$set => { name: equipment_name }
+          },
           return_document: :after,
           upsert: true
         )
@@ -115,12 +122,13 @@ if $0 === __FILE__
   AppEnv = ENV['APP_ENV'].presence || 'development'
   Mongoid.load!(AppRoute.join('config', 'mongoid.yml'), AppEnv)
 
-  target_time = (ARGV[0] == 'yesterday' ? Date.yesterday.to_time.end_of_day : Time.now)
+  is_yesterday_target = (ARGV[0] == 'yesterday')
+  target_time = (is_yesterday_target ? Date.yesterday.to_time.end_of_day : Time.now)
   target_date = target_time.to_date
 
   crawler = Crawler::EcoMegane.new
   crawler.login
-  crawler.get_csv(target_date)
+  crawler.get_csv(target_date, is_yesterday_target)
 
   EcoMeganeAggregator.new(target_time).aggregate
   SummaryAggregator.new(target_time).aggregate

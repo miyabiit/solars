@@ -151,6 +151,12 @@ module Crawler
 end
 
 if $0 === __FILE__
+  target_time = Time.now
+  if [0, 1].include?(target_time.hour)
+    # 0時近辺は前日のデータが返ってくる可能性があるので処理しない
+    exit
+  end
+
   AppEnv = ENV['APP_ENV'].presence || 'development'
   Mongoid.load!(AppRoute.join('config', 'mongoid.yml'), AppEnv)
 
@@ -164,7 +170,7 @@ if $0 === __FILE__
     p s[0, s.size - 2].join(",")
   end
 
-  aggregator = MegasolarAggregator.new(Time.now)
+  aggregator = MegasolarAggregator.new(target_time)
   aggregator.aggregate
-  SummaryAggregator.new(Time.now).aggregate
+  SummaryAggregator.new(target_time).aggregate
 end
