@@ -102,7 +102,10 @@ module Crawler
         )
 
         equipment = Equipment.where(_id: equipment_id, self_id: equipment_id).find_one_and_update(
-          { :$setOnInsert => { name: equipment_name, unit_price: 36, facility_id: facility.try(:id) } },
+          {
+            :$setOnInsert => { unit_price: 36, facility_id: facility.try(:id) },
+            :$set => {name: equipment_name }
+          },
           return_document: :after,
           upsert: true
         )
