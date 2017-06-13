@@ -19,7 +19,7 @@ class SummaryAggregatorTest < Minitest::Test
 
     csv_data = File.read('test/data/csv/ecomegane.csv')
     crawler = ::Crawler::EcoMegane.new
-    crawler.create_hour_data_from_csv(csv_data.encode("UTF-8", "Shift_JIS"))
+    crawler.create_hour_data_from_csv(csv_data.encode("UTF-8", "Shift_JIS"), false)
     EcoMeganeAggregator.new(target_time).aggregate
 
     html = File.read('test/data/html/solars.html')

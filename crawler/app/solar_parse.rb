@@ -83,6 +83,9 @@ module Crawler
     def save(current_time = Time.now)
       total_sales = 0
 
+      # AM0:00 - 2:00 の間は本日の発電電力量を強制的に0設定
+      ignore_today_kwh = [0, 1].include?(current_time.hour)
+
       @solars.each do |s|
         s = s.map{|v| v == '--' ? nil : v}
 
@@ -92,7 +95,7 @@ module Crawler
           facility:      facility,
           name:          s[0],
           today_title:   s[1],
-          today_kwh:     s[2].presence,
+          today_kwh:     (ignore_today_kwh ? 0 : s[2].presence),
           today_unit:    s[3],
           now_title:     s[4],
           now_kw:        s[5].presence,
@@ -115,7 +118,7 @@ module Crawler
       converted_summary = summary.map{|v| v == '--' ? nil : v}
       Summary.create({
         today_title:    converted_summary[0],
-        today_kwh:      converted_summary[1].presence,
+        today_kwh:      (ignore_today_kwh ? 0 : converted_summary[1].presence),
         today_unit:     converted_summary[2],
         now_title:      converted_summary[3],
         now_kw:         converted_summary[4].presence,
@@ -152,10 +155,6 @@ end
 
 if $0 === __FILE__
   target_time = Time.now
-  if [0, 1].include?(target_time.hour)
-    # 0時近辺は前日のデータが返ってくる可能性があるので処理しない
-    exit
-  end
 
   AppEnv = ENV['APP_ENV'].presence || 'development'
   Mongoid.load!(AppRoute.join('config', 'mongoid.yml'), AppEnv)
@@ -163,7 +162,7 @@ if $0 === __FILE__
   crawler = Crawler::Megasolar.new
   crawler.get_data
   crawler.parse
-  crawler.save
+  crawler.save(target_time)
   # show 
   p crawler.summary[0,crawler.summary.size - 1].join(",")
   crawler.solars.each do |s|

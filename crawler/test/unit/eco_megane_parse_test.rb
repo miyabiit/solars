@@ -19,7 +19,7 @@ class EcoMeganeParseTest < Minitest::Test
   def test_saved_data
     csv_data = File.read('test/data/csv/ecomegane.csv')
     crawler = ::Crawler::EcoMegane.new
-    crawler.create_hour_data_from_csv(csv_data.encode("UTF-8", "Shift_JIS"))
+    crawler.create_hour_data_from_csv(csv_data.encode("UTF-8", "Shift_JIS"), false)
     EcoMeganeAggregator.new(Time.parse('2016-07-24 12:00:00')).aggregate
     SummaryAggregator.new(Time.parse('2016-07-24 12:00:00')).aggregate
 
