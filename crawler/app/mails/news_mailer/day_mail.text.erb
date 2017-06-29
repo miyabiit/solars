@@ -4,7 +4,7 @@
 
 発電所名	発電量（kw）	売電予想金額（円）	ステータス
 <% @daily_solars.each do |solar| -%>
-<%= solar.facility&.disp_name.presence || solar.facility&.name.presence || solar.facility_name %>	<%= solar.total_kwh&.to_s(:delimited) %>	<%= solar.sales&.to_s(:delimited) %>	<%= solar.site_status %>
+<%= solar.facility&.disp_name.presence || solar.facility&.name.presence || solar.facility_name %>	<%= solar.total_kwh&.to_s(:delimited) || '--' %>	<%= solar.sales&.to_s(:delimited) || '--' %>	<%= solar.site_status %>
 <% end -%>
 
 全発電所合計　<%= @daily_summary&.total_kwh&.to_s(:delimited) %>kw　<%= @daily_summary&.sales&.to_s(:delimited) %>円

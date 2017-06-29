@@ -159,7 +159,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="solar in daily_solars | orderBy : solarsSort.orderBy()">
+          <tr ng-repeat="solar in daily_solars | orderBy : solarsSort.orderBy()" ng-class="solar.site_status == '異常' ? 'danger' : ''">
             <td>{{solar.date | date_slash}}</td>
             <td>{{solar.facility_id.disp_name}}</td>
             <td align="right">{{solar.total_kwh | number | none}} kWh</td>

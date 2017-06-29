@@ -16,7 +16,7 @@ class MegasolarAggregator
     def aggregate_daily_solars
       date_query = {date: current_time.strftime('%Y%m%d') }
       daily_solar_data = Solar.collection.aggregate([
-        { :$match => date_query.merge({site_status: '正常'}) },
+        { :$match => date_query },
         { :$group => { _id: {date: '$date', facility_id: "$facility_id" },
                        facility_id: { :$last => "$facility_id" },
                        total_kwh: { :$max => "$today_kwh" },
