@@ -1,2 +1,6 @@
 #!/bin/sh
-/usr/bin/mongodump --host localhost --db solarsdb --out /data/mongo/dump/solarsdb-`date +%w`
+cd /data/mongo
+/usr/bin/mongodump --host localhost --db solarsdb --out /data/mongo/dump/solarsdb
+cd /data/mongo/dump
+zip -r solarsdb-`date +%w`.zip solarsdb
+rm -rf solarsdb
