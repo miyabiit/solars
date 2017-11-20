@@ -44,6 +44,11 @@ every :day, at: "2:00 am" do
   crawler "app/eco_megane_parse.rb yesterday"
 end
 
+every :month, at: "3:00 am" do
+  set :output, -> { "> /var/log/monthly_aggregation.log 2>&1" } # TODO: log rotation
+  crawler "app/monthly_aggregation.rb"
+end
+
 if @environment.to_s == 'production'
   every :day, at: "0:25 am"  do
     set :output, -> { "> /var/log/solars-dump.log 2>&1" } # TODO: log rotation
