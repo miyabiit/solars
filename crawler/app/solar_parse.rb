@@ -20,22 +20,16 @@ def load_app_libraries(load_paths)
 end
 load_app_libraries ['app/models', 'app/lib']
 
-Capybara.configure do |config|
-  config.run_server = false
-  config.current_driver = :poltergeist
-  config.javascript_driver = :poltergeist
-
-  #todo `https` is failed then changed 'http'
-  #config.app_host = 'https://services32.energymntr.com/megasolar/COK0132285/login/'
-  config.app_host = 'http://services32.energymntr.com/megasolar/COK0132285/login/'
-
-  config.default_max_wait_time = 5 
-end
-
 Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(
-    app, {:timeout => 120, js_errors: false})
+    app, {:timeout => 120, js_errors: false, phantomjs_options: ['--ssl-protocol=any']})
 end
+
+Capybara.run_server = false
+Capybara.javascript_driver = :poltergeist
+Capybara.current_driver = :poltergeist
+Capybara.app_host = 'https://services32.energymntr.com/megasolar/COK0132285/login/'
+Capybara.default_max_wait_time = 5
 
 module Crawler
   class Megasolar
