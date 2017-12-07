@@ -10,7 +10,7 @@ set :default_env, { node_env: fetch(:node_env) }
 # server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
 # server 'db.example.com', user: 'deploy', roles: %w{db}
 
-server '54.238.154.232', user: 'ec2-user', roles: %w{web app db}
+server ENV['STAGING_SERVER_IP'], user: 'ec2-user', roles: %w{web app db}
 
 # role-based syntax
 # ==================
@@ -24,9 +24,9 @@ server '54.238.154.232', user: 'ec2-user', roles: %w{web app db}
 # role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
 # role :db,  %w{deploy@example.com}
 
-role :app, %w{ec2-user@54.238.154.232}
-role :web, %w{ec2-user@54.238.154.232}
-role :db, %w{ec2-user@54.238.154.232}
+role :app, ["ec2-user@#{ENV['STAGING_SERVER_IP']}"]
+role :web, ["ec2-user@#{ENV['STAGING_SERVER_IP']}"]
+role :db, ["ec2-user@#{ENV['STAGING_SERVER_IP']}"]
 
 
 # Configuration
