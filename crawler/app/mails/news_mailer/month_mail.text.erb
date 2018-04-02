@@ -7,4 +7,4 @@
 <%= solar.facility&.disp_name.presence || solar.facility&.name.presence || solar.facility_name %>	<%= solar.total_kwh&.to_s(:delimited) || '--' %>	<%= solar.sales&.truncate&.to_s(:delimited) || '--' %>	<%= solar.site_status %>
 <% end -%>
 
-全発電所合計　<%= @monthly_summary&.total_kwh&.to_s(:delimited) %>kw　<%= @monthly_summary&.sales&.truncate&.to_s(:delimited) %>円
+全発電所合計　<%= @monthly_summary&.total_kwh&.to_s(:delimited) %>kw　<%= @monthly_summary&.sales&.truncate&.to_s(:delimited) %>円（税別）
