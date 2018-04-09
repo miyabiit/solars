@@ -7,14 +7,14 @@ ruby '2.3.1'
 gem "poltergeist"
 gem "selenium-webdriver"
 gem "nokogiri"
-gem "mongo","~> 2.0"
+gem "mongo","~> 2.5.1"
 gem "bson_ext"
-gem 'mongoid', '~> 5.1.0'
-gem 'activesupport'
+gem 'mongoid', '~> 7.0.0'
+gem 'activesupport', '~> 5.1.6'
 gem 'whenever'
 gem 'rake'
 gem 'moji'
-gem 'actionmailer'
+gem 'actionmailer', '~> 5.1.6'
 
 # development
-gem 'letter_opener'
+gem 'letter_opener', git: 'git@github.com:centrevillage/letter_opener.git', branch: 'fix_rails_root_error'

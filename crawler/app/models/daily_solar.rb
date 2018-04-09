@@ -5,8 +5,6 @@ class DailySolar
   include Mongoid::Document
 
   belongs_to :facility   # 発電施設マスターID
-  belongs_to :megasolar_facility   # 発電施設マスターID
-  belongs_to :eco_megane_facility   # 発電施設マスターID
 
   field   :total_kwh,     type: Integer   # 日の総発電電力量(kWh)
   field   :site_status,   type: String    # 日の最終障害状況
