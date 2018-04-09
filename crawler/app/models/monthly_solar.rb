@@ -5,7 +5,7 @@ require_relative 'number_decimal'
 class MonthlySolar
   include Mongoid::Document
 
-  belongs_to :facility   #   発電施設マスターID
+  belongs_to :facility, optional: true   #   発電施設マスターID
 
   field   :total_kwh,     type: NumberDecimal # 月の総発電電力量(kWh)
   field   :sales,         type: NumberDecimal # 月の売電額

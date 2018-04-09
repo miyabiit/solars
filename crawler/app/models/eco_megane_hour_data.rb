@@ -5,8 +5,8 @@ require_relative 'number_decimal'
 class EcoMeganeHourData
   include Mongoid::Document
 
-  belongs_to :facility  # 施設マスターID
-  belongs_to :equipment # 設備マスターID
+  belongs_to :facility, optional: true  # 施設マスターID
+  belongs_to :equipment, optional: true  # 設備マスターID
 
   field   :kwh,       type: NumberDecimal
   field   :sales,     type: NumberDecimal
