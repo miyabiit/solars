@@ -1,19 +1,8 @@
 class NumberDecimal
   attr_reader :value
 
-  def initialize(v, n = nil)
-    @value = case v
-             when BigDecimal
-               v
-             when NumberDecimal
-               v.value
-             else
-               if n
-                 BigDecimal(v, n)
-               else
-                 BigDecimal(v)
-               end
-             end
+  def initialize(v)
+    @value = self.class.to_big_decimal(v)
   end
 
   def self.to_big_decimal(object)
@@ -60,7 +49,7 @@ class NumberDecimal
   end
 
   def mongoize
-    BSON::Decimal128.new(@value)
+    BSON::Decimal128.new(@value.round(16))
   end
 
   def to_s
