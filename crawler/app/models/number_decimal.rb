@@ -22,6 +22,10 @@ class NumberDecimal
       object.value
     when BigDecimal
       object
+    when Integer
+      BigDecimal(object)
+    when Float
+      BigDecimal(object, 16)
     else
       BigDecimal(object.to_s)
     end
