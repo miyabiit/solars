@@ -63,13 +63,13 @@
       <div class="col-md-6">
         <div class="well">
           <label>合計発電電力量</label>
-          <h4>{{ summary_total_kwh_sum | number | none }} <small>kWh</small></h4>
+          <h4>{{ summary_total_kwh_sum | number:0 | none }} <small>kWh</small></h4>
         </div>
       </div>
       <div class="col-md-6">
         <div class="well">
           <label>合計売電金額</label>
-          <h4>{{ summary_sales_sum | number | none }} <small>円</small></h4>
+          <h4>{{ summary_sales_sum | number:0 | none }} <small>円</small></h4>
         </div>
       </div>
     </div>
@@ -106,8 +106,8 @@
         <tbody>
           <tr ng-repeat="summary in daily_summaries | orderBy : summariesSort.selectedColumn : summariesSort.reverse">
             <td>{{summary.date | date_slash}}</td>
-            <td align="right">{{summary.total_kwh | number | none}} kWh</td>
-            <td align="right">{{summary.sales | number | none}} 円</td>
+            <td align="right">{{summary.total_kwh | number:0 | none}} kWh</td>
+            <td align="right">{{summary.sales | number:0 | none}} 円</td>
           </tr>
         </tbody>
       </table>
@@ -162,8 +162,8 @@
           <tr ng-repeat="solar in daily_solars | orderBy : solarsSort.orderBy()" ng-class="solar.site_status == '異常' ? 'danger' : ''">
             <td>{{solar.date | date_slash}}</td>
             <td>{{solar.facility_id.disp_name}}</td>
-            <td align="right">{{solar.total_kwh | number | none}} kWh</td>
-            <td align="right">{{solar.sales | number | none}} 円</td>
+            <td align="right">{{solar.total_kwh | number:0 | none}} kWh</td>
+            <td align="right">{{solar.sales | number:0 | none}} 円</td>
             <td align="right">{{solar.site_status | none}}</td>
           </tr>
         </tbody>
