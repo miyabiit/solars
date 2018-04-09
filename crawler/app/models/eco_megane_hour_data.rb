@@ -1,5 +1,6 @@
 # coding: utf-8
 require 'mongoid'
+require_relative 'number_decimal'
 
 class EcoMeganeHourData
   include Mongoid::Document
@@ -7,8 +8,8 @@ class EcoMeganeHourData
   belongs_to :facility  # 施設マスターID
   belongs_to :equipment # 設備マスターID
 
-  field   :kwh,       type: Float
-  field   :sales,     type: Float
+  field   :kwh,       type: NumberDecimal
+  field   :sales,     type: NumberDecimal
   field   :date,      type: String
   field   :date_time, type: Time
   field   :raw_data,  type: Hash
@@ -24,8 +25,8 @@ class EcoMeganeHourData
 
   def set_values
     self.equipment_id = raw_data[EQUIPMENT_KEY].gsub(/^'/, '') if raw_data[EQUIPMENT_KEY]
-    self.kwh = raw_data[KWH_KEY].to_f if raw_data[KWH_KEY]
-    self.sales = kwh * equipment.unit_price if kwh && equipment
+    self.kwh = raw_data[KWH_KEY] if raw_data[KWH_KEY]
+    self.sales = kwh * BigDecimal(equipment.unit_price, 10) if kwh && equipment
     self.date_time = raw_data[DATE_TIME_KEY] if raw_data[DATE_TIME_KEY]
   end
 
