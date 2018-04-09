@@ -15,6 +15,8 @@ class NumberDecimal
       BigDecimal(object)
     when Float
       BigDecimal(object, 16)
+    when BSON::Decimal128
+      object.to_big_decimal
     else
       BigDecimal(object.to_s)
     end
@@ -62,11 +64,11 @@ class NumberDecimal
 
   class << self
     def demongoize(object)
-      NumberDecimal.new(object&.to_big_decimal)
+      NumberDecimal.new(NumberDecimal.to_big_decimal(object))
     end
 
     def mongoize(object)
-      NumberDecimal.new(object.to_s).mongoize
+      NumberDecimal.new(object).mongoize
     end
 
     def evolve(object)
