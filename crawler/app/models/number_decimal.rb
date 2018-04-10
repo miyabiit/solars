@@ -58,6 +58,14 @@ class NumberDecimal
     @value.to_s
   end
 
+  def truncate
+    @value.truncate
+  end
+
+  def to_i
+    @value.to_i
+  end
+
   def to_big_decimal
     @value
   end
