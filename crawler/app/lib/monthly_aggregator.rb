@@ -39,7 +39,8 @@ class MonthlyAggregator
     ]).first
 
     monthly_summary = MonthlySummary.find_or_initialize_by(_id: {month: month})
-    monthly_summary.attributes = monthly_summary_data.to_hash
+    monthly_summary.total_kwh = monthly_summary_data[:total_kwh]
+    monthly_summary.sales = monthly_summary_data[:sales]
     monthly_summary.date_time = current_time
     monthly_summary.month = month
     monthly_summary.save

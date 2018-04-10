@@ -4,7 +4,7 @@ require 'mongoid'
 class Solar
   include Mongoid::Document
 
-  belongs_to :facility # 発電施設マスターID
+  belongs_to :facility, optional: true  # 発電施設マスターID
 
   field   :today_kwh,     type: Integer   # 本日の発電電力量(kWh)
   field   :now_kw,        type: Float     # 現在の発電電力(kw)

@@ -27,10 +27,10 @@
         <tr>
           <td></td>
           <td align="right">
-            {{daily_summary.total_kwh | number | none}}&nbsp;kWh
+            {{daily_summary.total_kwh | number:0 | none}}&nbsp;kWh
           </td>
           <td align="right">
-            {{daily_summary.sales | number | none}}&nbsp;円
+            {{daily_summary.sales | number:0 | none}}&nbsp;円
           </td>
           <td align="right">
             {{daily_summary.date_time | date: 'yyyy/MM/dd HH:mm'}}
@@ -62,10 +62,10 @@
             {{eco_solar.facility_id.disp_name | none}}
           </td>
           <td align="right">
-            {{eco_solar.total_kwh | number | none}}&nbsp;kWh
+            {{eco_solar.total_kwh | number:0 | none}}&nbsp;kWh
           </td>
           <td align="right">
-            {{eco_solar.sales | number | none}}&nbsp;円
+            {{eco_solar.sales | number:0 | none}}&nbsp;円
           </td>
           <td align="right">
             {{eco_solar.date_time | date: 'yyyy/MM/dd HH:mm'}}
@@ -105,7 +105,7 @@
             {{solar.today_kwh | number | none}}&nbsp;{{solar.today_unit}}
           </td>
           <td align="right">
-            {{solar.sales | number | none}}&nbsp;円
+            {{solar.sales | number:0 | none}}&nbsp;円
           </td>
           <td align="right">
             {{solar.now_kw | number | none}}&nbsp;{{solar.now_unit}}
@@ -125,7 +125,7 @@
             {{summary.today_kwh | number | none}}&nbsp;{{summary.today_unit}}
           </td>
           <td align="right">
-            {{summary.sales | number | none}}&nbsp;円
+            {{summary.sales | number:0 | none}}&nbsp;円
           </td>
           <td align="right">
             {{summary.now_kw | number | none}}&nbsp;{{summary.now_unit}}
@@ -140,7 +140,7 @@
             {{summary.total_title}}
           </td>
           <td align="right">
-            {{summary.total_kwh | number | none}}&nbsp;{{summary.total_unit}}
+            {{summary.total_kwh | number:0 | none}}&nbsp;{{summary.total_unit}}
           </td>
           <td>
             &nbsp;
