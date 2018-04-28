@@ -26,13 +26,13 @@ class EcoMeganeParseTest < Minitest::Test
     daily_data = DailySolar.where(date: '20160724').first
 
     assert_equal '茨城県（エコめがね）', daily_data.facility.name
-    assert_equal 1525, daily_data.total_kwh
-    assert_equal (1525.1039 * 36).to_i, daily_data.sales
+    assert_equal 1525, daily_data.total_kwh.to_i
+    assert_equal (BigDecimal('1525.1039') * 36), daily_data.sales.to_big_decimal
     assert_equal '20160724', daily_data.date
 
     summary_data = DailySummary.where(date: '20160724').first
-    assert_equal 1525, summary_data.total_kwh
-    assert_equal (1525.1039 * 36).to_i, summary_data.sales
+    assert_equal 1525, summary_data.total_kwh.to_i
+    assert_equal (BigDecimal('1525.1039') * 36), summary_data.sales.to_big_decimal
     assert_equal '20160724', summary_data.date
   end
 end

@@ -111,20 +111,20 @@ module Crawler
 
       converted_summary = summary.map{|v| v == '--' ? nil : v}
       Summary.create({
-        today_title:    converted_summary[0],
-        today_kwh:      (ignore_today_kwh ? 0 : converted_summary[1].presence),
-        today_unit:     converted_summary[2],
-        now_title:      converted_summary[3],
-        now_kw:         converted_summary[4].presence,
-        now_unit:       converted_summary[5],
-        total_title:    converted_summary[6],
-        total_kwh:      converted_summary[7].presence,
-        total_unit:     converted_summary[8],
-        site_title:     converted_summary[9],
-        site_status:    converted_summary[10],
-        update_title:   converted_summary[11],
-        update_date:    converted_summary[12],
-        update_time:    converted_summary[13],
+        update_title:   converted_summary[0],
+        update_date:    converted_summary[1],
+        update_time:    converted_summary[2],
+        today_title:    converted_summary[3],
+        today_kwh:      (ignore_today_kwh ? 0 : converted_summary[4].presence),
+        today_unit:     converted_summary[5],
+        now_title:      converted_summary[6],
+        now_kw:         converted_summary[7].presence,
+        now_unit:       converted_summary[8],
+        total_title:    converted_summary[9],
+        total_kwh:      converted_summary[10].presence,
+        total_unit:     converted_summary[11],
+        site_title:     converted_summary[12],
+        site_status:    converted_summary[13],
         sales:          total_sales,
         date_time:      current_time
       })
@@ -141,7 +141,7 @@ module Crawler
         )
       end
 
-      def convert_double_minus_to_nil(values)
+      def self.convert_double_minus_to_nil(values)
         values.map{|v| v == '--' ? nil : v}
       end
   end
