@@ -23,7 +23,7 @@ class SummaryAggregatorTest < Minitest::Test
     EcoMeganeAggregator.new(target_time).aggregate
 
     html = File.read('test/data/html/solars.html')
-    html.gsub!(/2016\/07\/05/, '2016/07/24') # change update_date
+    html.gsub!(/2018\/04\/28/, '2016/07/24') # change update_date
     crawler = ::Crawler::Megasolar.new
     crawler.solar_page = Nokogiri::HTML.parse(html)
     crawler.parse
@@ -34,8 +34,8 @@ class SummaryAggregatorTest < Minitest::Test
 
     summary_data = DailySummary.where(date: '20160724').first
 
-    assert_equal (1525.1039).to_i + 41460, summary_data.total_kwh
-    assert_equal (1525.1039 * 36).to_i + 1492596, summary_data.sales
+    assert_equal (1525.1039).to_i + 92992, summary_data.total_kwh.to_i
+    assert_equal (1525.1039 * 36).to_i + 3347712, summary_data.sales.to_i
     assert_equal '20160724', summary_data.date
   end
 end
