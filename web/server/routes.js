@@ -17,6 +17,7 @@ module.exports = function(app) {
   app.use('/api/equipments', require('./api/equipment'));
   app.use('/api/daily_solars', require('./api/daily_solar'));
   app.use('/api/daily_summaries', require('./api/daily_summary'));
+  app.use('/api/monthly_solars', require('./api/monthly_solar'));
 
   app.use('/auth', require('./auth'));
   
