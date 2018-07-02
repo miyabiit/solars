@@ -58,11 +58,11 @@ module Crawler
       @summary = []
       @solars = []
       @solar_page.xpath("//p | //div[@class='totalTitle' or @class='totalValue' or @class='totalUnit' or @class='totalLabel']").each do |node|
-        @summary.push(node.text.strip)
+        @summary.push(node.text.strip.gsub(/,/, ''))
       end
       temp = []
-      @solar_page.xpath("//div[@class='title' or @class='value' or @class='unit' or @class='label']").each do |node|
-        temp.push(node.text.strip)
+      @solar_page.xpath("//div[@class='title' or contains(@class, 'value') or @class='unit' or @class='label']").each do |node|
+        temp.push(node.text.strip.gsub(/,/, ''))
       end
       while temp.size > 0 do
         @solars.push(temp.slice!(0,17))
