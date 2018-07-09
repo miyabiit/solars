@@ -23,6 +23,9 @@ exports.index = function(req, res) {
   if (dateTo) {
     query.date.$lte = dateTo
   }
+  if (req.query.facility_id) {
+    query.facility_id = req.query.facility_id
+  }
 
   DailySolar.find(query)
               .sort({date: -1, facility_name: 1})
