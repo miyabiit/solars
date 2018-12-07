@@ -28,7 +28,7 @@ end
 Capybara.run_server = false
 Capybara.javascript_driver = :poltergeist
 Capybara.current_driver = :poltergeist
-Capybara.app_host = 'https://services32.energymntr.com/megasolar/COK0132285/login/'
+Capybara.app_host = 'https://services32.energymntr.com/megasolar/COK0132285/login'
 Capybara.default_max_wait_time = 5
 
 module Crawler
@@ -46,7 +46,7 @@ module Crawler
       visit('')
       fill_in "idtext", :with => 'COK0132285'
       fill_in "pwtext", :with => 'bfifzLxMg3qWrmt'
-      click_link "ログイン"
+      find(".loginBtn").find("a").click
     end
 
     def get_data
@@ -57,11 +57,11 @@ module Crawler
     def parse
       @summary = []
       @solars = []
-      @solar_page.xpath("//p | //div[@class='totalTitle' or @class='totalValue' or @class='totalUnit' or @class='totalLabel']").each do |node|
+      @solar_page.xpath("//*[@class='systemWidget']//p | //*[@class='systemWidget']//div[@class='totalTitle' or @class='totalValue' or @class='totalUnit' or @class='totalLabel']").each do |node|
         @summary.push(node.text.strip.gsub(/,/, ''))
       end
       temp = []
-      @solar_page.xpath("//div[@class='title' or contains(@class, 'value') or @class='unit' or @class='label']").each do |node|
+      @solar_page.xpath("//*[@class='areaWindowArea']//div[@class='title' or contains(@class, 'value') or @class='unit' or @class='label']").each do |node|
         temp.push(node.text.strip.gsub(/,/, ''))
       end
       while temp.size > 0 do
@@ -158,9 +158,9 @@ if $0 === __FILE__
   crawler.parse
   crawler.save(target_time)
   # show 
-  p crawler.summary[0,crawler.summary.size - 1].join(",")
+  p crawler.summary[0..-2].join(",")
   crawler.solars.each do |s|
-    p s[0, s.size - 2].join(",")
+    p s[0..-3].join(",")
   end
 
   aggregator = MegasolarAggregator.new(target_time)
