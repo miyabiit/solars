@@ -46,7 +46,11 @@ module Crawler
       visit('')
       fill_in "idtext", :with => 'COK0132285'
       fill_in "pwtext", :with => 'bfifzLxMg3qWrmt'
-      find(".loginBtn").find("a").click
+      begin
+        find(".loginBtn").find("button").click
+      rescue
+        find(".loginBtn").find("a").click
+      end
     end
 
     def get_data
