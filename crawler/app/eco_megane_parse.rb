@@ -22,20 +22,18 @@ def load_app_libraries(load_paths)
 end
 load_app_libraries ['app/models', 'app/lib']
 
-Capybara.configure do |config|
-  config.run_server = false
-  config.current_driver = :poltergeist
-  config.javascript_driver = :poltergeist
-  config.app_host = 'http://partner.eco-megane.jp'
-  config.default_max_wait_time = 5 
-end
+Capybara.run_server = false
+Capybara.current_driver = :selenium_chrome_headless
+Capybara.javascript_driver = :selenium_chrome_headless
+Capybara.app_host = 'http://partner.eco-megane.jp'
+Capybara.default_max_wait_time = 5 
 
 module Crawler
   class EcoMegane
     include Capybara::DSL
 
     def login
-      page.driver.headers = {"User-Agent" => "Mac Safari", "Accept-Language" => "ja"}
+      #page.driver.headers = {"User-Agent" => "Mac Safari", "Accept-Language" => "ja"}
       visit('/i')
       fill_in "company_id", with: 'B2214'
       fill_in "login_id",   with: 'megane2214'
@@ -84,7 +82,8 @@ module Crawler
 
       def post(url, params)
         url = URI.parse(url)
-        cookie_str = page.driver.cookies.each_with_object([]) { |(key, value), array| array.push("#{key}=#{value.value}") }.join('; ')
+        cookie_str = page.driver.browser.manage.all_cookies.each_with_object([]) { |cookie, array| array.push("#{cookie[:name]}=#{cookie[:value]}") }.join('; ')
+
         req = Net::HTTP::Post.new(url.path, {'Cookie' => cookie_str})
         req.set_form_data(params)
         http = Net::HTTP.new(url.host, url.port)

@@ -1,20 +1,20 @@
 # A sample Gemfile
 source "https://rubygems.org"
 
-ruby '2.3.1'
+ruby '2.7.2'
 
 # gem "rails"
 gem "poltergeist"
 gem "selenium-webdriver"
 gem "nokogiri"
-gem "mongo","~> 2.5.1"
-gem "bson_ext"
-gem 'mongoid', '~> 7.0.0'
-gem 'activesupport', '~> 5.1.6'
+gem "mongo", '~> 2.16.0'
+gem "bson", '~> 4.12.1'
+gem 'mongoid', '~> 7.3.3'
+gem 'activesupport'
 gem 'whenever'
 gem 'rake'
 gem 'moji'
-gem 'actionmailer', '~> 5.1.6'
+gem 'actionmailer'
 
 # development
 gem 'letter_opener', git: 'git@github.com:centrevillage/letter_opener.git', branch: 'fix_rails_root_error'
