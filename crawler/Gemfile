@@ -5,7 +5,7 @@ ruby '2.7.2'
 
 # gem "rails"
 gem "poltergeist"
-gem "selenium-webdriver"
+gem "selenium-webdriver", '~> 3.14.0'
 gem "nokogiri"
 gem "mongo", '~> 2.16.0'
 gem "bson", '~> 4.12.1'
