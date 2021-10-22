@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-require 'capybara'
-require 'capybara/dsl'
-require 'capybara/poltergeist'
+
+require 'selenium-webdriver'
 
 require 'mongo'
 require 'nokogiri'
@@ -22,23 +21,36 @@ def load_app_libraries(load_paths)
 end
 load_app_libraries ['app/models', 'app/lib']
 
-Capybara.run_server = false
-Capybara.current_driver = :selenium_chrome_headless
-Capybara.javascript_driver = :selenium_chrome_headless
-Capybara.app_host = 'http://partner.eco-megane.jp'
-Capybara.default_max_wait_time = 5 
-
 module Crawler
   class EcoMegane
-    include Capybara::DSL
+
+    def initialize
+      @cookie_str = nil
+    end
 
     def login
-      #page.driver.headers = {"User-Agent" => "Mac Safari", "Accept-Language" => "ja"}
-      visit('/i')
-      fill_in "company_id", with: 'B2214'
-      fill_in "login_id",   with: 'megane2214'
-      fill_in "password",   with: '64ma6f'
-      click_link "ログイン"
+      options = Selenium::WebDriver::Chrome::Options.new
+      options.add_argument('--headless')
+      driver = Selenium::WebDriver.for :chrome, options: options
+      begin
+        driver.manage.timeouts.implicit_wait = 5
+        driver.get 'https://partner.eco-megane.jp/i/index.php'
+        company_id_elem = driver.find_element(:id, 'company_id')
+        login_id_elem = driver.find_element(:id, 'login_id')
+        password_elem = driver.find_element(:id, 'password')
+        submit_elem = driver.find_element(:css, '.submit')
+
+        company_id_elem.send_keys 'B2214'
+        login_id_elem.send_keys 'megane2214'
+        password_elem.send_keys '64ma6f'
+
+        submit_elem.click
+
+        @cookie_str = driver.manage.all_cookies.each_with_object([]) { |cookie, array| array.push("#{cookie[:name]}=#{cookie[:value]}") }.join('; ')
+      ensure
+        driver.quit
+      end
+
     end
 
     def get_csv(target_date = Date.today, is_update_all = false)
@@ -81,10 +93,12 @@ module Crawler
     private
 
       def post(url, params)
+        unless @cookie_str
+          raise 'Failed to login to the target site'
+        end
         url = URI.parse(url)
-        cookie_str = page.driver.browser.manage.all_cookies.each_with_object([]) { |cookie, array| array.push("#{cookie[:name]}=#{cookie[:value]}") }.join('; ')
 
-        req = Net::HTTP::Post.new(url.path, {'Cookie' => cookie_str})
+        req = Net::HTTP::Post.new(url.path, {'Cookie' => @cookie_str})
         req.set_form_data(params)
         http = Net::HTTP.new(url.host, url.port)
         #http.set_debug_output $stderr
