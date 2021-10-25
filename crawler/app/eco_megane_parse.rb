@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-require 'selenium-webdriver'
-
 require 'mongo'
 require 'nokogiri'
 require 'moji'
@@ -29,28 +27,31 @@ module Crawler
     end
 
     def login
-      options = Selenium::WebDriver::Chrome::Options.new
-      options.add_argument('--headless')
-      driver = Selenium::WebDriver.for :chrome, options: options
-      begin
-        driver.manage.timeouts.implicit_wait = 5
-        driver.get 'https://partner.eco-megane.jp/i/index.php'
-        company_id_elem = driver.find_element(:id, 'company_id')
-        login_id_elem = driver.find_element(:id, 'login_id')
-        password_elem = driver.find_element(:id, 'password')
-        submit_elem = driver.find_element(:css, '.submit')
-
-        company_id_elem.send_keys 'B2214'
-        login_id_elem.send_keys 'megane2214'
-        password_elem.send_keys '64ma6f'
-
-        submit_elem.click
-
-        @cookie_str = driver.manage.all_cookies.each_with_object([]) { |cookie, array| array.push("#{cookie[:name]}=#{cookie[:value]}") }.join('; ')
-      ensure
-        driver.quit
+      response = post('https://partner.eco-megane.jp/i/index.php', {
+        'companyId' => 'B2214',
+        'loginId' => 'megane2214',
+        'password' => '64ma6f',
+        'omission' => 'on',
+        'fnc' => 'blogin',
+        'act' => 'blogin'
+      })
+      if response.code.to_i == 200
+        session_id = response['set-cookie'].scan(/SUBSESSID=[^;]+;/).first
+        @cookie_str = "#{session_id} TOP_MESSAGE_F="
+      else
+        raise 'Failed to login!'
       end
 
+      response = get('https://partner.eco-megane.jp/i/index.php', {
+        'fnc' => 'bmypagetop',
+        'act' => 'dispScreen'
+      }, {'Cookie' => @cookie_str})
+      if response.code.to_i == 200
+      else
+        raise 'Failed to access top page!'
+      end
+      
+      #puts "Cookie: #{@cookie_str}"
     end
 
     def get_csv(target_date = Date.today, is_update_all = false)
@@ -61,7 +62,7 @@ module Crawler
         'measureGenerateAmountTo' => target_date.strftime('%Y/%m/%d'),
         'fnc' => 'bmypagetop',
         'act' => 'csvDownloadMeasureGenerateAmount',
-      })
+      }, {'Cookie' => @cookie_str})
       if response.code.to_i == 200
         create_hour_data_from_csv(response.body.encode("UTF-8", "Shift_JIS"), is_update_all)
       end
@@ -91,14 +92,22 @@ module Crawler
     end
 
     private
-
-      def post(url, params)
-        unless @cookie_str
-          raise 'Failed to login to the target site'
-        end
+      def get(url, params, header = {})
         url = URI.parse(url)
+        req = Net::HTTP::Get.new(url.path, header)
+        req.set_form_data(params)
+        http = Net::HTTP.new(url.host, url.port)
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        http.start do |h|
+          response, _ = h.request(req)
+          return response
+        end
+      end
 
-        req = Net::HTTP::Post.new(url.path, {'Cookie' => @cookie_str})
+      def post(url, params, header = {})
+        url = URI.parse(url)
+        req = Net::HTTP::Post.new(url.path, header)
         req.set_form_data(params)
         http = Net::HTTP.new(url.host, url.port)
         #http.set_debug_output $stderr
