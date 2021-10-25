@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-require 'capybara'
-require 'capybara/dsl'
-require 'capybara/poltergeist'
 
 require 'mongo'
 require 'nokogiri'
@@ -22,25 +19,39 @@ def load_app_libraries(load_paths)
 end
 load_app_libraries ['app/models', 'app/lib']
 
-Capybara.configure do |config|
-  config.run_server = false
-  config.current_driver = :poltergeist
-  config.javascript_driver = :poltergeist
-  config.app_host = 'http://partner.eco-megane.jp'
-  config.default_max_wait_time = 5 
-end
-
 module Crawler
   class EcoMegane
-    include Capybara::DSL
+
+    def initialize
+      @cookie_str = nil
+    end
 
     def login
-      page.driver.headers = {"User-Agent" => "Mac Safari", "Accept-Language" => "ja"}
-      visit('/i')
-      fill_in "company_id", with: 'B2214'
-      fill_in "login_id",   with: 'megane2214'
-      fill_in "password",   with: '64ma6f'
-      click_link "ログイン"
+      response = post('https://partner.eco-megane.jp/i/index.php', {
+        'companyId' => 'B2214',
+        'loginId' => 'megane2214',
+        'password' => '64ma6f',
+        'omission' => 'on',
+        'fnc' => 'blogin',
+        'act' => 'blogin'
+      })
+      if response.code.to_i == 200
+        session_id = response['set-cookie'].scan(/SUBSESSID=[^;]+;/).first
+        @cookie_str = "#{session_id} TOP_MESSAGE_F="
+      else
+        raise 'Failed to login!'
+      end
+
+      response = get('https://partner.eco-megane.jp/i/index.php', {
+        'fnc' => 'bmypagetop',
+        'act' => 'dispScreen'
+      }, {'Cookie' => @cookie_str})
+      if response.code.to_i == 200
+      else
+        raise 'Failed to access top page!'
+      end
+      
+      #puts "Cookie: #{@cookie_str}"
     end
 
     def get_csv(target_date = Date.today, is_update_all = false)
@@ -51,7 +62,7 @@ module Crawler
         'measureGenerateAmountTo' => target_date.strftime('%Y/%m/%d'),
         'fnc' => 'bmypagetop',
         'act' => 'csvDownloadMeasureGenerateAmount',
-      })
+      }, {'Cookie' => @cookie_str})
       if response.code.to_i == 200
         create_hour_data_from_csv(response.body.encode("UTF-8", "Shift_JIS"), is_update_all)
       end
@@ -81,11 +92,22 @@ module Crawler
     end
 
     private
-
-      def post(url, params)
+      def get(url, params, header = {})
         url = URI.parse(url)
-        cookie_str = page.driver.cookies.each_with_object([]) { |(key, value), array| array.push("#{key}=#{value.value}") }.join('; ')
-        req = Net::HTTP::Post.new(url.path, {'Cookie' => cookie_str})
+        req = Net::HTTP::Get.new(url.path, header)
+        req.set_form_data(params)
+        http = Net::HTTP.new(url.host, url.port)
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        http.start do |h|
+          response, _ = h.request(req)
+          return response
+        end
+      end
+
+      def post(url, params, header = {})
+        url = URI.parse(url)
+        req = Net::HTTP::Post.new(url.path, header)
         req.set_form_data(params)
         http = Net::HTTP.new(url.host, url.port)
         #http.set_debug_output $stderr
